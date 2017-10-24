@@ -1,10 +1,13 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by Kat on 24/10/2017.
@@ -12,9 +15,12 @@ import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment{
 
-    //members
+    //view
     boolean mDualPane;
     View    mLayoutView;
+
+    //members
+    Button mBtnRecordPark;
 
 
     public static HomeFragment newInstance(){
@@ -38,8 +44,44 @@ public class HomeFragment extends Fragment{
 
         super.onActivityCreated(savedInstanceState);
 
+        //link ui
+        mBtnRecordPark = getActivity().findViewById(R.id.btn_record_park);
 
+        mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+
+                    // display on the same Activity
+
+                    //if dialog reply is yes
+                    DurationCostFragment curCost = DurationCostFragment.newInstance();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, curCost);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+
+                }else {
+
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), DurationCostActivity.class);
+                    //intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
+
+            }
+        });
 
 
     }
+
 }

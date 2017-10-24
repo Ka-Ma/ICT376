@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WheresMyCar</string>
+    <string name="lbl_record_park">I am Parked!</string>
 </resources>
