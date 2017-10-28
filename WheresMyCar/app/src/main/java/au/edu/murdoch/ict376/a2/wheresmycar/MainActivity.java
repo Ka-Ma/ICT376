@@ -22,5 +22,8 @@ public class MainActivity extends AppCompatActivity {
         }else{
             homeFragment = (HomeFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
         }
+
+        BluetoothHelper bluetoothHelper = new BluetoothHelper(this);
+        bluetoothHelper.enableBluetooth();
     }
 }
