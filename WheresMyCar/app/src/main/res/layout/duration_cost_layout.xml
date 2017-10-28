@@ -1,11 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title_duration_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the duration and cost page" />
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        android:text="@string/title_cost_duration" />
+
+    <TextView
+        android:id="@+id/label_dur_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_duration_cost"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_hour"/>
+
+    <EditText
+        android:id="@+id/edit_dur_hour"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_duration_cost"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_dur_hour"
+        android:layout_alignBaseline="@id/label_dur_hour" />
+
+    <TextView
+        android:id="@+id/label_dur_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_dur_hour"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_min"/>
+
+    <EditText
+        android:id="@+id/edit_dur_min"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_dur_hour"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_dur_min"
+        android:layout_alignBaseline="@id/label_dur_min" />
+
+    <TextView
+        android:id="@+id/label_dur_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_dur_min"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_cost"/>
+
+    <EditText
+        android:id="@+id/edit_cost"
+        android:inputType="numberDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_dur_min"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_dur_cost"
+        android:layout_alignBaseline="@id/label_dur_cost" />
+
+    <Button
+        android:id="@+id/button_dur_cost_Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_dur_cost"
+        android:layout_centerHorizontal="true"
+        android:text="@string/btn_dur_cost"/>
+
+</RelativeLayout>

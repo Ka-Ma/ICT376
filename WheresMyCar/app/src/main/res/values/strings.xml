@@ -1,13 +1,25 @@
 <resources>
     <string name="app_name">WheresMyCar</string>
+
+    //home frag
     <string name="lbl_record_park">I am Parked!</string>
+
+    //add vehicle
     <string name="title_add_vehicle">Add/Edit Vehicle</string>
     <string name="lbl_rego">Registration</string>
-    <string name="hint_rego">Enter registration plate number</string>
+    <string name="hint_rego">eg: 1AAA000</string>
     <string name="lbl_vehicle_name">Name</string>
-    <string name="hint_vehicle_name">Enter name for vehicle eg: Susie</string>
+    <string name="hint_vehicle_name">eg: Mitzi</string>
     <string name="lbl_vehicle_description">Description</string>
-    <string name="hint_vehicle_description">Enter description for vehicle eg: work beast</string>
+    <string name="hint_vehicle_description">eg: work beast</string>
     <string name="btn_vehicle">Submit</string>
     <string name="regoWarning">Registration can not be left empty</string>
+
+    //duration and cost
+    <string name="title_cost_duration">Timed Parking Information</string>
+    <string name="lbl_hour">Hour</string>
+    <string name="lbl_min">Minutes</string>
+    <string name="lbl_cost">Cost Per Hour</string>
+    <string name="btn_dur_cost">Next</string>
+
 </resources>

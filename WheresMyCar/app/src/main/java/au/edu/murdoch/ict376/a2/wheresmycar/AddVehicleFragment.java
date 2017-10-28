@@ -67,6 +67,7 @@ public class AddVehicleFragment extends Fragment {
                     mydb.insertVehicle(v);
                     //return to previous activity after new vehicle added.
                     getActivity().onBackPressed();
+
                 }
             }
         });

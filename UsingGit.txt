@@ -28,7 +28,7 @@ When all the work you have done is stable and you want to add it to master, do t
 in your branch: git fetch origin (makes sure your computer knows about the latest master on the repository)
 git rebase origin/master (makes it so this branch is now branched from the latest master)
 //to squash all your commits into one
-git reflog [branchName] // to view the hash numbers of the commits for this branch, find the one related to the first rebase onto ###### is the # you want 
+git reflog [branchName] // to view the hash numbers of the commits for this branch, find the one related to the first rebase onto ###### is the # you want (not the hash on the very left)
 git rebase -i [hash number of origin/master, first 6 digits should be enough]
 edit screen: (press <i> to start editing, keep one pick and change the others to "s")
 <esc> when finished then ":x" <enter> to close editing

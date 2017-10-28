@@ -7,5 +7,5 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the waiting page" />
+        android:text="This is the waiting page, tick tock" />
 </LinearLayout>
