@@ -5,16 +5,18 @@
     android:layout_height="wrap_content"
     tools:context="au.edu.murdoch.ict376.a2.wheresmycar.MainActivity">
 
-<FrameLayout
+    <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         />
 
     <FrameLayout
         android:id="@+id/right_fragment_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         />
 
 </RelativeLayout>

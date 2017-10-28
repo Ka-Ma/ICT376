@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment{
 
     //members
     Button mBtnRecordPark;
-
+    Button mBtnTestDB;
 
     public static HomeFragment newInstance(){
 
@@ -46,6 +46,8 @@ public class HomeFragment extends Fragment{
 
         //link ui
         mBtnRecordPark = getActivity().findViewById(R.id.btn_record_park);
+
+
 
         mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +84,40 @@ public class HomeFragment extends Fragment{
         });
 
 
+        mBtnTestDB = getActivity().findViewById(R.id.btn_testDB);
+        mBtnTestDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+
+                    // display on the same Activity
+
+                    //if dialog reply is yes
+                    AddVehicleFragment newVeh = AddVehicleFragment.newInstance();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, newVeh);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+
+                }else {
+
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), AddVehicleActivity.class);
+                    //intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
+
+            }
+        });
     }
 
 }

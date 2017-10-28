@@ -1,11 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title_vehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the add vehicle page" />
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        android:text="@string/title_add_vehicle" />
+
+    <TextView
+        android:id="@+id/label_rego"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/title_vehicle"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_rego"/>
+
+    <EditText
+        android:id="@+id/edit_rego"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_vehicle"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_rego"
+        android:layout_alignBaseline="@id/label_rego"
+        android:hint="@string/hint_rego"/>
+
+    <TextView
+        android:id="@+id/label_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_rego"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_vehicle_name"
+        />
+
+    <EditText
+        android:id="@+id/edit_vehicle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_name"
+        android:layout_alignBaseline="@id/label_name"
+        android:hint="@string/hint_vehicle_name"/>
+
+    <TextView
+        android:id="@+id/label_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_name"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="24dp"
+        android:text="@string/lbl_vehicle_description"
+        />
+
+    <EditText
+        android:id="@+id/edit_vehicle_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/label_description"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/label_description"
+        android:hint="@string/hint_vehicle_description"/>
+
+
+    <Button
+        android:id="@+id/button_submit_vehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_vehicle_description"
+        android:layout_centerHorizontal="true"
+        android:text="@string/btn_vehicle"/>
+</RelativeLayout>

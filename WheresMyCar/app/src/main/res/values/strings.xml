@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">WheresMyCar</string>
     <string name="lbl_record_park">I am Parked!</string>
+    <string name="title_add_vehicle">Add/Edit Vehicle</string>
+    <string name="lbl_rego">Registration</string>
+    <string name="hint_rego">Enter registration plate number</string>
+    <string name="lbl_vehicle_name">Name</string>
+    <string name="hint_vehicle_name">Enter name for vehicle eg: Susie</string>
+    <string name="lbl_vehicle_description">Description</string>
+    <string name="hint_vehicle_description">Enter description for vehicle eg: work beast</string>
+    <string name="btn_vehicle">Submit</string>
+    <string name="regoWarning">Registration can not be left empty</string>
 </resources>
