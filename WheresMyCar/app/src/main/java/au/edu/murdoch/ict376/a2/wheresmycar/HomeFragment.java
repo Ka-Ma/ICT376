@@ -48,10 +48,8 @@ public class HomeFragment extends Fragment{
         return mLayoutView;
     }
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
 
         mydb = new DBHelper(getActivity());
@@ -65,14 +63,11 @@ public class HomeFragment extends Fragment{
         mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 if (mDualPane) {
-
                     // display on the same Activity
-
                     //if dialog reply is yes
                     DurationCostFragment curCost = DurationCostFragment.newInstance();
 
@@ -81,9 +76,7 @@ public class HomeFragment extends Fragment{
 
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
-
                 }else {
-
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
                     dataBundle.putString("rego", "rego"); //where second rego is from currently chosen value on spinner
@@ -122,14 +115,11 @@ public class HomeFragment extends Fragment{
         mBtnSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 if (mDualPane) {
-
                     // display on the same Activity
-
                     //if dialog reply is yes
                     SetupFragment setupFragment = SetupFragment.newInstance();
 
@@ -138,9 +128,7 @@ public class HomeFragment extends Fragment{
 
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
-
                 }else {
-
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
 

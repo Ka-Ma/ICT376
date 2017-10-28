@@ -11,13 +11,13 @@
         android:text="@string/lbl_setup"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_add_car"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_add_car"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_bluetooth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_bluetooth"/>

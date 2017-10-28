@@ -36,6 +36,8 @@ public class BluetoothHelper extends View{
 
     // Discover Bluetooth
     public void discoverBluetooth() {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery(); // Cancel any current discovery
             bluetoothAdapter.startDiscovery();

@@ -63,6 +63,7 @@ public class BluetoothFragment extends Fragment {
         // Register the broadcast receiver for discovered devices
         getActivity().registerReceiver(discoverBroadcastReceiver, discoverIntent);
 
+        bluetoothHelper = new BluetoothHelper(getActivity());
         bluetoothHelper.discoverBluetooth();
     }
     // Broadcast receiver for discovered devices
