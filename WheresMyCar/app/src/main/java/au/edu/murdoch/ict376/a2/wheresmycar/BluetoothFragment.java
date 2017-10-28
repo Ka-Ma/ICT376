@@ -18,7 +18,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -32,6 +34,7 @@ public class BluetoothFragment extends Fragment {
     boolean mDualPane;
     private BluetoothHelper bluetoothHelper;
     BluetoothAdapter bluetoothAdapter;
+    BluetoothDevice bluetoothDevice;
     private Button buttonBluetooth;
     private ListView listviewBluetoothDevices;
     public ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>();
@@ -55,6 +58,10 @@ public class BluetoothFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Register a broadcast receiver for connection change
+        IntentFilter connectionChangeFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        getActivity().registerReceiver(connectionBroadcastReceiver, connectionChangeFilter);
     }
 
     public void showDiscoveredDevices() {
@@ -94,15 +101,42 @@ public class BluetoothFragment extends Fragment {
                     String deviceName = bluetoothDevices.get(i).getName();
                     String deviceAddress = bluetoothDevices.get(i).getAddress();
 
+
                     Log.d(TAG, "AdapterView: item clicked: " + deviceName);
                     Log.d(TAG, "AdapterView: item clicked: " + deviceAddress);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                        Log.d(TAG, "Trying to pair with: " + deviceName);
-                        bluetoothDevices.get(i).createBond();
+                        //Log.d(TAG, "Trying to pair with: " + deviceName);
+                        //bluetoothDevices.get(i).createBond();
+                        UUID deviceUUID = bluetoothDevices.get(i).getUuids()[1].getUuid();
+                        //UUID deviceUUID = UUID.fromString("7bdcf245-85d0-4d73-8a41-8f519fb28e6d");
+                        bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress);
+                        try {
+                            bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
+                            Log.d(TAG, "Connection successful: " + bluetoothDevice);
+                        } catch (IOException connectException) {
+                            Log.d(TAG, "Connection failed: " + bluetoothDevice + " " + connectException);
+                            try {
+                                bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).close();
+                            } catch (IOException closeException) {
+                                Log.e(TAG, "Could not close the client socket", closeException);
+                            }
+                        }
                     }
                 }
             });
+        }
+    };
+
+    // Broadcast receiver for connection state
+    private BroadcastReceiver connectionBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if(action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                Log.d(TAG, "Bluetooth connection lost.");
+                // Record parking location
+            }
         }
     };
 }

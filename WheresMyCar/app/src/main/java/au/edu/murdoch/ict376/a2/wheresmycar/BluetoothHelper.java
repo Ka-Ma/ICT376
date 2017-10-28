@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import static android.content.ContentValues.TAG;
 
@@ -26,6 +27,7 @@ public class BluetoothHelper extends View{
         // Check if device supports bluetooth
         if (bluetoothAdapter == null) {
             Log.d(TAG, "Bluetooth unavailable");
+            //Toast.makeText(getContext(), "Bluetooth is not supported on this device.", Toast.LENGTH_LONG).show();
         }
         // Enable bluetooth if it is not enabled
         if (!bluetoothAdapter.isEnabled()) {
