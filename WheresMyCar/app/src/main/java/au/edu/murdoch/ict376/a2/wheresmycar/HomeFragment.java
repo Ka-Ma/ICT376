@@ -30,20 +30,18 @@ public class HomeFragment extends Fragment{
 
     //members
     Button mBtnRecordPark;
-    Button mBtnTestDB;
     Spinner mSprVehicle;
-
+    Button mBtnSetup;
+	
     DBHelper mydb;
 
     public static HomeFragment newInstance(){
-
         HomeFragment f = new HomeFragment();
         return f;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mLayoutView = inflater.inflate(R.layout.home_layout, container, false);
 
@@ -60,6 +58,7 @@ public class HomeFragment extends Fragment{
 
         //link ui
         mBtnRecordPark = getActivity().findViewById(R.id.btn_record_park);
+        mBtnSetup = getActivity().findViewById(R.id.btn_setup);
 
 
 
@@ -94,12 +93,10 @@ public class HomeFragment extends Fragment{
 
                     startActivity(intent);
                 }
-
             }
         });
 
-
-        mSprVehicle = getActivity().findViewById(R.id.vehicles_spinner);
+		mSprVehicle = getActivity().findViewById(R.id.vehicles_spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mydb.getVehicleList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -120,10 +117,9 @@ public class HomeFragment extends Fragment{
 
             }
         });
-
-        //TODO DELETE LATER, this was just to test db
-        mBtnTestDB = getActivity().findViewById(R.id.btn_testDB);
-        mBtnTestDB.setOnClickListener(new View.OnClickListener() {
+		
+		
+        mBtnSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -135,10 +131,10 @@ public class HomeFragment extends Fragment{
                     // display on the same Activity
 
                     //if dialog reply is yes
-                    AddVehicleFragment newVeh = AddVehicleFragment.newInstance();
+                    SetupFragment setupFragment = SetupFragment.newInstance();
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.right_fragment_container, newVeh);
+                    ft.replace(R.id.right_fragment_container, setupFragment);
 
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
@@ -148,7 +144,8 @@ public class HomeFragment extends Fragment{
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
 
-                    Intent intent = new Intent(getActivity().getApplicationContext(), AddVehicleActivity.class);
+                    Intent intent = new Intent(getActivity().getApplicationContext(), SetupActivity.class);
+
                     //intent.putExtras(dataBundle);
 
                     startActivity(intent);

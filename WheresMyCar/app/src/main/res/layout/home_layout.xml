@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:text="@string/lbl_record_park"/>
 
-
     <Spinner
         android:id="@+id/vehicles_spinner"
         android:layout_width="wrap_content"
@@ -24,8 +23,9 @@
         />
 
     <Button
-        android:id="@+id/btn_testDB"
+        android:id="@+id/btn_setup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test db"/>
+        android:text="@string/lbl_setup"/>
+
 </LinearLayout>
