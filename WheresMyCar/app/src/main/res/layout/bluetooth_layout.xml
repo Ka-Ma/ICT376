@@ -7,5 +7,10 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the home page" />
+        android:text="This is the Bluetooth page" />
+
+    <ListView
+        android:id="@+id/listviewBluetoothDevices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

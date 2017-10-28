@@ -1,8 +1,6 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -21,7 +19,7 @@ public class BluetoothHelper extends View{
         super(context);
     }
 
-    // Enable bluetooth
+    // Enable Bluetooth
     public void enableBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -33,6 +31,17 @@ public class BluetoothHelper extends View{
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             getContext().startActivity(enableBluetoothIntent);
+        }
+    }
+
+    // Discover Bluetooth
+    public void discoverBluetooth() {
+        if (bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.cancelDiscovery(); // Cancel any current discovery
+            bluetoothAdapter.startDiscovery();
+        }
+        if (!bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.startDiscovery();
         }
     }
 }

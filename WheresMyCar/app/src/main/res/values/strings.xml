@@ -3,6 +3,9 @@
 
     //home frag
     <string name="lbl_record_park">I am Parked!</string>
+	<string name="textview_setup">Setup</string>
+    <string name="lbl_add_car">Add car</string>
+    <string name="lbl_bluetooth">Bluetooth</string>
 
     //add vehicle
     <string name="title_add_vehicle">Add/Edit Vehicle</string>
