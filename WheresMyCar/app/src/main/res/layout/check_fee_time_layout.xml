@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the waiting page, tick tock" />
-
-    <TextView
-        android:id="@+id/textViewCountdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"/>
+        android:text="@string/ask_cost_or_fee"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnYes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"/>
+        android:text="@string/lbl_yes"/>
 
+    <Button
+        android:id="@+id/btnNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_no"/>
 </LinearLayout>

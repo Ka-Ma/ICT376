@@ -32,4 +32,8 @@
 
     <string name="bt_devices">Available devices:</string>
 
+    <string name="lbl_yes">Yes</string>
+    <string name="lbl_no">No</string>
+    <string name="ask_cost_or_fee">Do you have a parking fee or time limit?</string>
+
 </resources>

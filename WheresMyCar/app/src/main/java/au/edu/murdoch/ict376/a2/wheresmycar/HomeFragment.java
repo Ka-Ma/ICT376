@@ -69,10 +69,10 @@ public class HomeFragment extends Fragment{
                 if (mDualPane) {
                     // display on the same Activity
                     //if dialog reply is yes
-                    DurationCostFragment curCost = DurationCostFragment.newInstance();
+                    FeeOrTimeLimitFragment checkTimeOrFee = FeeOrTimeLimitFragment.newInstance();
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.right_fragment_container, curCost);
+                    ft.replace(R.id.right_fragment_container, checkTimeOrFee);
 
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
@@ -81,8 +81,9 @@ public class HomeFragment extends Fragment{
                     //add stuff to bundle
                     dataBundle.putString("rego", "rego"); //where second rego is from currently chosen value on spinner
 
-                    Intent intent = new Intent(getActivity().getApplicationContext(), DurationCostActivity.class);
-                    intent.putExtras(dataBundle);
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), FeeOrTimeLimitActivity.class);
+                    //intent.putExtras(dataBundle);
 
                     startActivity(intent);
                 }
