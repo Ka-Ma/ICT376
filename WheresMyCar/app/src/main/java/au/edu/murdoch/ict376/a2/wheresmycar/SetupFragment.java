@@ -52,15 +52,4 @@ public class SetupFragment extends Fragment {
             }
         });
     }
-
-    public void beginBluetooth(View v) {
-        Log.d(TAG, "beginBluetooth");
-        /*Bundle dataBundle = new Bundle();
-        //add stuff to bundle
-
-        Intent intent = new Intent(getActivity().getApplicationContext(), BluetoothActivity.class);
-        //intent.putExtras(dataBundle);
-
-        startActivity(intent);*/
-    }
 }

@@ -126,6 +126,7 @@ public class BluetoothFragment extends Fragment {
         }
     };
 
+    // Broadcast receiver for switching Bluetooth on
     private BroadcastReceiver bluetoothOnReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -142,13 +143,14 @@ public class BluetoothFragment extends Fragment {
         }
     };
 
+    // Broadcast receiver for remote Bluetooth UUID's
     private BroadcastReceiver uuidBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
             if (action.equals(BluetoothDevice.ACTION_UUID)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                //BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
                 // Loop through UUID's to make a connection
                 for (int i = 0; i < uuidExtra.length; i++) {
@@ -172,12 +174,14 @@ public class BluetoothFragment extends Fragment {
     };
 
     // Broadcast receiver for connection state
+    // For this application if a connection is lost the users (parking) location is recorded
     private BroadcastReceiver connectionBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if(action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(TAG, "Bluetooth connection lost.");
+                // Do application specific stuff
                 // Record parking location
             }
         }
