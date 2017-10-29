@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:text="*timer*"
+        android:text="-"
         android:textAlignment="center"
         android:textSize="62sp"/>
 

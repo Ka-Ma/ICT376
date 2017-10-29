@@ -1,15 +1,23 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Kat on 24/10/2017.
@@ -37,7 +45,6 @@ public class WaitingFragment extends Fragment {
         return mLayoutView;
     }
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -46,17 +53,44 @@ public class WaitingFragment extends Fragment {
         textviewCountdownLbl.setText(R.string.lbl_time_remaining);
         textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);
 
-        new CountDownTimer(5000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                textViewCountdown.setText(String.valueOf(millisUntilFinished / 1000));
-            }
-            public void onFinish() {
-                textviewCountdownLbl.setText(R.string.lbl_times_up);
-                textViewCountdown.setText("00");
+        getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
+
+        Intent intent = new Intent(getActivity(), TimerService.class);
+        getActivity().startService(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    private BroadcastReceiver timerBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String secondsUntilFinished = intent.getStringExtra("secondsUntilFinished");
+            if (secondsUntilFinished.equals("0")) {
                 MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.ping);
                 mediaPlayer.start();
+                textviewCountdownLbl.setText(R.string.lbl_times_up);
+                textViewCountdown.setText(secondsUntilFinished);
                 Toast.makeText(getActivity(), "Parking time limit reached.", Toast.LENGTH_LONG).show();
+                getActivity().unregisterReceiver(timerBroadcastReceiver);
+                getActivity().stopService(new Intent(getActivity(), TimerService.class));
+            } else {
+                textViewCountdown.setText(secondsUntilFinished);
             }
-        }.start();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(timerBroadcastReceiver);
     }
 }
