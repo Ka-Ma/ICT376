@@ -20,13 +20,6 @@ public class BluetoothHelper extends View{
         super(context);
     }
 
-    // Check if Bluetooth is on
-    public boolean isOn() {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        return true;
-    }
-
     // Enable Bluetooth
     public void enableBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

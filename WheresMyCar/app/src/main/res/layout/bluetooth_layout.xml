@@ -7,7 +7,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the Bluetooth page" />
+        android:text="@string/bt_devices" />
 
     <ListView
         android:id="@+id/listviewBluetoothDevices"

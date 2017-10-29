@@ -84,22 +84,6 @@ public class BluetoothFragment extends Fragment {
         }
     }
 
-    private BroadcastReceiver bluetoothOnReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                if (state == BluetoothAdapter.STATE_ON) {
-                    showDiscoveredDevices();
-                    // Register a broadcast receiver for UUID service discovery protocol
-                    IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
-                    getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
-                }
-            }
-        }
-    };
-
     public void showDiscoveredDevices() {
         // Create an intent filter for discovered devices
         IntentFilter discoverIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -132,36 +116,36 @@ public class BluetoothFragment extends Fragment {
             listviewBluetoothDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                    bluetoothAdapter.cancelDiscovery();
+                    bluetoothAdapter.cancelDiscovery(); // Make sure discovery is cancelled when item selected
 
                     String deviceName = bluetoothDevices.get(i).getName();
                     String deviceAddress = bluetoothDevices.get(i).getAddress();
-
 
                     Log.d(TAG, "AdapterView: item clicked: " + deviceName);
                     Log.d(TAG, "AdapterView: item clicked: " + deviceAddress);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                        //Log.d(TAG, "Trying to pair with: " + deviceName);
-                        //bluetoothDevices.get(i).createBond();
-                        //UUID deviceUUID = bluetoothDevices.get(i).getUuids()[1].getUuid();
-                        //UUID deviceUUID = UUID.fromString("7bdcf245-85d0-4d73-8a41-8f519fb28e6d");
                         bluetoothDevices.get(i).fetchUuidsWithSdp(); // Get UUID's of the selected device using service discovery protocol
                         bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress); // Get the MAC address of the selected device
-                        /*try {
-                            bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
-                            Log.d(TAG, "Connection successful: " + bluetoothDevice);
-                        } catch (IOException connectException) {
-                            Log.d(TAG, "Connection failed: " + bluetoothDevice + " " + connectException);
-                            try {
-                                bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).close();
-                            } catch (IOException closeException) {
-                                Log.e(TAG, "Could not close the client socket", closeException);
-                            }
-                        }*/
                     }
                 }
             });
+        }
+    };
+
+    private BroadcastReceiver bluetoothOnReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                if (state == BluetoothAdapter.STATE_ON) {
+                    showDiscoveredDevices();
+                    // Register a broadcast receiver for UUID service discovery protocol
+                    IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+                    getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
+                }
+            }
         }
     };
 
@@ -180,7 +164,7 @@ public class BluetoothFragment extends Fragment {
                     try {
                         bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
                         Log.d(TAG, "***Connection successful***" + uuidExtra[i].toString());
-                        break;
+                        return;
                     } catch (IOException connectException) {
                         Log.d(TAG, "Connection failed: " + connectException);
                         try {
@@ -209,7 +193,8 @@ public class BluetoothFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(connectionBroadcastReceiver);
+        getActivity().unregisterReceiver(bluetoothOnReceiver);
         getActivity().unregisterReceiver(uuidBroadcastReceiver);
+        getActivity().unregisterReceiver(connectionBroadcastReceiver);
     }
 }

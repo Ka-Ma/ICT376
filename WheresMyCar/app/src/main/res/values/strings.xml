@@ -29,4 +29,7 @@
     <string name="lbl_cost">Cost Per Hour</string>
     <string name="btn_dur_cost">Next</string>
 
+
+    <string name="bt_devices">Available devices:</string>
+
 </resources>
