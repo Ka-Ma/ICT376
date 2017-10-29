@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class BluetoothFragment extends Fragment {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Show currently available devices in a list on fragment creation
-        showDiscoveredDevices();
+        //showDiscoveredDevices();
 
         return v;
     }
@@ -62,7 +63,42 @@ public class BluetoothFragment extends Fragment {
         // Register a broadcast receiver for connection change
         IntentFilter connectionChangeFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         getActivity().registerReceiver(connectionBroadcastReceiver, connectionChangeFilter);
+
+        // Register a broadcast receiver for UUID service discovery protocol
+        /*IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+        getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);*/
+
+        // Register a broadcast receiver for Bluetooth turning on
+        IntentFilter bluetoothOnFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        getActivity().registerReceiver(bluetoothOnReceiver, bluetoothOnFilter);
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothHelper = new BluetoothHelper(getActivity());
+        if (bluetoothAdapter.isEnabled()) {
+            showDiscoveredDevices();
+            // Register a broadcast receiver for UUID service discovery protocol
+            IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+            getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
+        } else {
+            bluetoothHelper.enableBluetooth();
+        }
     }
+
+    private BroadcastReceiver bluetoothOnReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                if (state == BluetoothAdapter.STATE_ON) {
+                    showDiscoveredDevices();
+                    // Register a broadcast receiver for UUID service discovery protocol
+                    IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+                    getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
+                }
+            }
+        }
+    };
 
     public void showDiscoveredDevices() {
         // Create an intent filter for discovered devices
@@ -108,10 +144,11 @@ public class BluetoothFragment extends Fragment {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         //Log.d(TAG, "Trying to pair with: " + deviceName);
                         //bluetoothDevices.get(i).createBond();
-                        UUID deviceUUID = bluetoothDevices.get(i).getUuids()[1].getUuid();
+                        //UUID deviceUUID = bluetoothDevices.get(i).getUuids()[1].getUuid();
                         //UUID deviceUUID = UUID.fromString("7bdcf245-85d0-4d73-8a41-8f519fb28e6d");
-                        bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress);
-                        try {
+                        bluetoothDevices.get(i).fetchUuidsWithSdp(); // Get UUID's of the selected device using service discovery protocol
+                        bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress); // Get the MAC address of the selected device
+                        /*try {
                             bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
                             Log.d(TAG, "Connection successful: " + bluetoothDevice);
                         } catch (IOException connectException) {
@@ -121,10 +158,39 @@ public class BluetoothFragment extends Fragment {
                             } catch (IOException closeException) {
                                 Log.e(TAG, "Could not close the client socket", closeException);
                             }
-                        }
+                        }*/
                     }
                 }
             });
+        }
+    };
+
+    private BroadcastReceiver uuidBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothDevice.ACTION_UUID)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+                // Loop through UUID's to make a connection
+                for (int i = 0; i < uuidExtra.length; i++) {
+                    UUID deviceUUID = UUID.fromString(uuidExtra[i].toString());
+                    Log.d(TAG, "UUID: " + uuidExtra[i].toString());
+                    try {
+                        bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
+                        Log.d(TAG, "***Connection successful***" + uuidExtra[i].toString());
+                        break;
+                    } catch (IOException connectException) {
+                        Log.d(TAG, "Connection failed: " + connectException);
+                        try {
+                            bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).close();
+                        } catch (IOException closeException) {
+                            Log.e(TAG, "Could not close the client socket", closeException);
+                        }
+                    }
+                }
+            }
         }
     };
 
@@ -139,4 +205,11 @@ public class BluetoothFragment extends Fragment {
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(connectionBroadcastReceiver);
+        getActivity().unregisterReceiver(uuidBroadcastReceiver);
+    }
 }
