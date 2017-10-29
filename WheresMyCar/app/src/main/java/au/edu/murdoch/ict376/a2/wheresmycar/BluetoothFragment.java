@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -35,6 +37,7 @@ public class BluetoothFragment extends Fragment {
     private BluetoothHelper bluetoothHelper;
     BluetoothAdapter bluetoothAdapter;
     BluetoothDevice bluetoothDevice;
+    private TextView textviewDevicesStatus;
     private Button buttonBluetooth;
     private ListView listviewBluetoothDevices;
     public ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>();
@@ -92,6 +95,10 @@ public class BluetoothFragment extends Fragment {
             final String action = intent.getAction();
             ArrayList btDeviceNameList = new ArrayList();
 
+            textviewDevicesStatus = (TextView) getActivity().findViewById(R.id.textViewDevicesStatus);
+            textviewDevicesStatus.setText(R.string.bt_devices);
+
+            // If devices are found put their names and addresses into an array
             if (action.equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.d(TAG, "ACTION_FOUND: device name: " + device.getName());

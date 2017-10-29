@@ -14,21 +14,26 @@
         android:id="@+id/textViewWheresMyCar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:paddingTop="16dp"
         android:text="@string/wheres_my_car"
-        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+        android:textAlignment="center"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="24dp"
         android:text="@string/start_menu"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Menu"/>
 
     <Button
         android:id="@+id/btn_record_park"
-        style="@android:style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="@string/lbl_record_park"/>
 
     <Spinner
@@ -40,9 +45,9 @@
 
     <Button
         android:id="@+id/btn_setup"
-        style="@android:style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/lbl_setup"/>
 
 </LinearLayout>
