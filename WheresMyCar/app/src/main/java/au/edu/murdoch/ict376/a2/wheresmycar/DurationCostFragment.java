@@ -70,17 +70,39 @@ public class DurationCostFragment extends Fragment {
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 //TODO get location!
-                double latitude = 1234567;
-                double longitude = 34765222;
+                double latitude = -32.066567;
+                double longitude = 115.831996;
 
                 //setup date & time
                 String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                 String time = new SimpleDateFormat("hh:mm a").format(new Date());
 
-                ParkedLocation pl = new ParkedLocation(longitude, latitude, time, date,
-                        Integer.parseInt(mDurationHr.getText().toString()),
-                        Integer.parseInt(mDurationMin.getText().toString()),
-                        Integer.parseInt(mCost.getText().toString()));
+
+                //check for empty or invalid entry
+                int hr, min, cost = 0;
+                float costF;
+                try{
+                    hr = Integer.parseInt(mDurationHr.getText().toString());
+                }catch(NumberFormatException nfe){
+                    hr = 0;
+                }
+                try{
+                    min = Integer.parseInt(mDurationMin.getText().toString());
+                }catch(NumberFormatException nfe){
+                    min = 0;
+                }
+                try{
+                    costF = Float.parseFloat(mCost.getText().toString());
+                }catch(NumberFormatException nfe){
+                    costF = 0;
+                    cost = 0;
+                }
+                if(costF>0){
+                    //convert dollars to cents and integer
+                    cost = Math.round(costF*100);
+                }
+
+                ParkedLocation pl = new ParkedLocation(longitude, latitude, time, date, hr, min, cost);
 
                 mydb.insertParking(getArguments().getString("rego"), pl);
 

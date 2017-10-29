@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WheresMyCar</string>
+    <string name="app_name">Where\'s My Car?</string>
 
     //home frag
     <string name="title_home">Start Menu</string>
@@ -35,6 +35,7 @@
     <string name="btn_dur_cost">Next</string>
 
 
+
     <string name="bt_devices">Available devices:</string>
 
 
@@ -54,5 +55,10 @@
     <string name="lbl_time_remaining">Time remaining: </string>
     <string name="lbl_times_up">Times up!</string>
     <string name="refresh">Refresh</string>
+
+    //history
+    <string name="title_history">Parking History</string>
+    <string name="lbl_history_total">Total costs: $</string>
+
 
 </resources>

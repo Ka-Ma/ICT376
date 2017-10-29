@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -186,6 +187,9 @@ public class DBHelper extends SQLiteOpenHelper {
             rego = res.getString(res.getColumnIndex(PARKING_COLUMN_REGO));
         }
 
+        res.close();
+        db.close();
+
         return rego;
     }
 
@@ -201,8 +205,8 @@ public class DBHelper extends SQLiteOpenHelper {
             Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_CENTS_PER_HOUR));
             Integer costDH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_HR));
             Integer costDM = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN));
-            Integer calc = ((costPH * costDH) + (costPH/60 * costDM))/100; //TODO this may be messed up by being integer math
-            String cost = calc.toString();
+            float calc = (((float)costPH * (float)costDH) + ((float)costPH/60 * (float)costDM))/100; //cast all integers to float to calc
+            String cost = String.format("%.2f", calc); //converts calculate float to #.## format
             list.add(res.getString(res.getColumnIndex(PARKING_COLUMN_DATE))+" "+
                     res.getString(res.getColumnIndex(PARKING_COLUMN_TIME))+" "+
                     res.getString(res.getColumnIndex(PARKING_COLUMN_REGO))+" "+
@@ -213,6 +217,9 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
 
+        res.close();
+        db.close();
+
         return list;
     }
 
@@ -220,6 +227,32 @@ public class DBHelper extends SQLiteOpenHelper {
     //get all parking instances for a vehicle
 
     //get total cost for all vehicles
+    public String getTotalCostAllVehicles(){
+        float sum = 0;
+        String total;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + PARKING_TABLE_NAME, null);
+        res.moveToFirst();
+        while(!res.isAfterLast()){
+            Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_CENTS_PER_HOUR));
+            Integer costDH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_HR));
+            Integer costDM = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN));
+            float calc = (((float)costPH * (float)costDH) + ((float)costPH/60 * (float)costDM))/100;
+            Log.d("myapp", "doing sums this trips was"+ calc);
+            sum = sum + calc;
+            Log.d("myapp", "doing sums total so far"+ sum);
+            res.moveToNext();
+        }
+
+        res.close();
+        db.close();
+
+        total = String.format("%.2f", sum);
+        Log.d("myapp", "doing sums strung out total "+total);
+
+        return total;
+    }
 
     //get total cost for this vehicle
 }
