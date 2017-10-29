@@ -2,6 +2,9 @@ package au.edu.murdoch.ict376.a2.wheresmycar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
                 getFragmentManager().beginTransaction().add(R.id.fragment_container, vehicleFragment).commit();
             }
         }else{
-            homeFragment = (HomeFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
+            Log.d(TAG, "savedInstanceState is not null");
+            //homeFragment = (HomeFragment)getFragmentManager().findFragmentById(R.id.fragment_container);
         }
 
         BluetoothHelper bluetoothHelper = new BluetoothHelper(this);

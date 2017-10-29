@@ -3,22 +3,35 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is the waiting page, tick tock" />
+-->
+
+    <TextView
+        android:id="@+id/textViewParkingRecorded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/parking_recorded" />
+
+    <TextView
+        android:id="@+id/textViewClickReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/click_return"/>
 
     <TextView
         android:id="@+id/textViewCountdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"/>
+        android:text=""/>
 
     <Button
         android:id="@+id/button"
+        style="@android:style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"/>
-
+        android:text="@string/lbl_return"/>
 </LinearLayout>

@@ -11,13 +11,13 @@
         android:text="@string/ask_cost_or_fee"/>
 
     <Button
-        android:id="@+id/btnYes"
+        android:id="@+id/btn_yes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_yes"/>
 
     <Button
-        android:id="@+id/btnNo"
+        android:id="@+id/btn_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_no"/>

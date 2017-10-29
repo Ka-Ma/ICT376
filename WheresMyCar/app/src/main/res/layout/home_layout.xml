@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <!--<TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is the home page" />-->
+
+    <TextView
+        android:id="@+id/textViewWheresMyCar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/wheres_my_car"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is the home page" />
+        android:text="@string/start_menu"
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu"/>
 
     <Button
         android:id="@+id/btn_record_park"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_record_park"/>
 
@@ -24,7 +40,8 @@
 
     <Button
         android:id="@+id/btn_setup"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lbl_setup"/>
 

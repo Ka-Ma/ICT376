@@ -62,7 +62,7 @@ public class BluetoothFragment extends Fragment {
 
         // Register a broadcast receiver for Bluetooth turning on
         IntentFilter bluetoothOnFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        getActivity().registerReceiver(bluetoothOnReceiver, bluetoothOnFilter);
+        getActivity().registerReceiver(bluetoothOnBroadcastReceiver, bluetoothOnFilter);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bluetoothHelper = new BluetoothHelper(getActivity());
@@ -126,7 +126,7 @@ public class BluetoothFragment extends Fragment {
     };
 
     // Broadcast receiver for switching Bluetooth on
-    private BroadcastReceiver bluetoothOnReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver bluetoothOnBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
@@ -189,8 +189,9 @@ public class BluetoothFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(bluetoothOnReceiver);
+        getActivity().unregisterReceiver(bluetoothOnBroadcastReceiver);
         getActivity().unregisterReceiver(uuidBroadcastReceiver);
         getActivity().unregisterReceiver(connectionBroadcastReceiver);
+        getActivity().unregisterReceiver(discoverBroadcastReceiver);
     }
 }

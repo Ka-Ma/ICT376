@@ -12,13 +12,13 @@
         >
 
         <FrameLayout
-            android:id="@+id/right_fragment_container"
+            android:id="@+id/left_fragment_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
         <FrameLayout
-            android:id="@+id/left_fragment_container"
+            android:id="@+id/right_fragment_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

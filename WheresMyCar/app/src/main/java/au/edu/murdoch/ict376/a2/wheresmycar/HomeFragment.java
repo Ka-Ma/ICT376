@@ -63,7 +63,15 @@ public class HomeFragment extends Fragment{
         mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                Bundle dataBundle = new Bundle();
+                //add stuff to bundle
+
+                Intent intent = new Intent(getActivity().getApplicationContext(), FeeOrTimeLimitActivity.class);
+                //intent.putExtras(dataBundle);
+
+                startActivity(intent);
+
+                /*View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 if (mDualPane) {
@@ -86,7 +94,7 @@ public class HomeFragment extends Fragment{
                     //intent.putExtras(dataBundle);
 
                     startActivity(intent);
-                }
+                }*/
             }
         });
 
@@ -116,7 +124,15 @@ public class HomeFragment extends Fragment{
         mBtnSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                Bundle dataBundle = new Bundle();
+                //add stuff to bundle
+
+                Intent intent = new Intent(getActivity().getApplicationContext(), SetupActivity.class);
+                //intent.putExtras(dataBundle);
+
+                startActivity(intent);
+
+                /*View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 if (mDualPane) {
@@ -138,8 +154,8 @@ public class HomeFragment extends Fragment{
                     //intent.putExtras(dataBundle);
 
                     startActivity(intent);
-                }
 
+                }*/
             }
         });
     }

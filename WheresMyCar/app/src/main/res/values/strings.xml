@@ -36,4 +36,9 @@
     <string name="lbl_no">No</string>
     <string name="ask_cost_or_fee">Do you have a parking fee or time limit?</string>
 
+    <string name="parking_recorded">Parking recorded!</string>
+    <string name="click_return">Click return when you need to find your vehicle.</string>
+    <string name="lbl_return">Return</string>
+    <string name="wheres_my_car">Where\'s My Car?</string>
+    <string name="start_menu">Start menu</string>
 </resources>
