@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-
-    <!--<TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This is the home page" />-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textViewWheresMyCar"
-        android:layout_width="match_parent"
+        android:id="@+id/title_home"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:paddingTop="16dp"
-        android:text="@string/wheres_my_car"
-        android:textAlignment="center"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="24dp"
-        android:text="@string/start_menu"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Menu"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        android:text="@string/title_home" />
 
     <Button
         android:id="@+id/btn_record_park"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_below="@id/title_home"
+        android:layout_centerHorizontal="true"
         android:text="@string/lbl_record_park"/>
+
+    <TextView
+        android:id="@+id/label_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_record_park"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lbl_spinner"/>
 
     <Spinner
         android:id="@+id/vehicles_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/label_spinner"
+        android:layout_centerHorizontal="true"
         android:padding="10dp"
         />
 
     <Button
-        android:id="@+id/btn_setup"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_history"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/vehicles_spinner"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lbl_history"/>
+
+    <Button
+        android:id="@+id/btn_setup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_history"
+        android:layout_centerHorizontal="true"
         android:text="@string/lbl_setup"/>
 
-</LinearLayout>
+</RelativeLayout>
+

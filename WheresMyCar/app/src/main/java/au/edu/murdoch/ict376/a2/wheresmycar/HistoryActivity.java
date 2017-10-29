@@ -7,9 +7,8 @@ import android.os.Bundle;
  * Created by Kat on 24/10/2017.
  */
 
-public class DurationCostActivity extends Activity {
-    DurationCostFragment durationCostFragment;
-    String rego;
+public class HistoryActivity extends Activity {
+    HistoryFragment historyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +18,13 @@ public class DurationCostActivity extends Activity {
 
         if(extras !=null){
             //populate variables with extras
-            rego = extras.getString("rego");
         }
 
         if (savedInstanceState == null) {
-            durationCostFragment = DurationCostFragment.newInstance(rego);
-            getFragmentManager().beginTransaction().replace(android.R.id.content, durationCostFragment).commit();
+            historyFragment = HistoryFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(android.R.id.content, historyFragment).commit();
         }else{
-            durationCostFragment = (DurationCostFragment)getFragmentManager().findFragmentById(android.R.id.content);
+            historyFragment = (HistoryFragment)getFragmentManager().findFragmentById(android.R.id.content);
         }
 
 

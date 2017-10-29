@@ -35,13 +35,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PARKING_COLUMN_REGO = "rego";
     public static final String PARKING_COLUMN_DURATION_HR = "durationHr";
     public static final String PARKING_COLUMN_DURATION_MIN = "durationMin";
-    public static final String PARKING_COLUMN_DOLLARS_PER_HOUR = "dollarsPerHour";
+    public static final String PARKING_COLUMN_CENTS_PER_HOUR = "centsPerHour";
     public static final String PARKING_COLUMN_PARK_LOCATION_LAT = "parkLocationLat";
     public static final String PARKING_COLUMN_PARK_LOCATION_LONG = "parkLocationLong";
 
     //version to change if tables need to be recreated
 
-    static int ver = 2;
+    static int ver = 3;
 
     public DBHelper(Context context){
         super(context, DATABASE_NAME, null, ver);
@@ -67,7 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         PARKING_COLUMN_REGO + " text, " +
                         PARKING_COLUMN_DURATION_HR + " integer, " +
                         PARKING_COLUMN_DURATION_MIN + " integer, " +
-                        PARKING_COLUMN_DOLLARS_PER_HOUR + " decimal(10,2), " +
+                        PARKING_COLUMN_CENTS_PER_HOUR + " integer, " +
                         PARKING_COLUMN_PARK_LOCATION_LAT + " double, " +
                         PARKING_COLUMN_PARK_LOCATION_LONG + " double, " +
                         "FOREIGN KEY (" + PARKING_COLUMN_REGO + ") REFERENCES " + VEHICLE_TABLE_NAME + "(" + VEHICLE_COLUMN_REGO + "))"
@@ -116,7 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(PARKING_COLUMN_TIME, pl.getParkedTime());
         contentValues.put(PARKING_COLUMN_DURATION_HR, pl.getDurationHr());
         contentValues.put(PARKING_COLUMN_DURATION_MIN, pl.getDurationMin());
-        contentValues.put(PARKING_COLUMN_DOLLARS_PER_HOUR, pl.getCostPerHour());
+        contentValues.put(PARKING_COLUMN_CENTS_PER_HOUR, pl.getCostPerHour());
         contentValues.put(PARKING_COLUMN_PARK_LOCATION_LAT, pl.getLatitude());
         contentValues.put(PARKING_COLUMN_PARK_LOCATION_LONG, pl.getLongitude());
 
@@ -139,7 +139,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //contentValues.put(PARKING_COLUMN_TIME, pl.getParkedTime());
         contentValues.put(PARKING_COLUMN_DURATION_HR, pl.getDurationHr());
         contentValues.put(PARKING_COLUMN_DURATION_MIN, pl.getDurationMin());
-        contentValues.put(PARKING_COLUMN_DOLLARS_PER_HOUR, pl.getCostPerHour());
+        contentValues.put(PARKING_COLUMN_CENTS_PER_HOUR, pl.getCostPerHour());
         //contentValues.put(PARKING_COLUMN_PARK_LOCATION_LAT, pl.getLatitude());
         //contentValues.put(PARKING_COLUMN_PARK_LOCATION_LONG, pl.getLongitude());
 
@@ -198,7 +198,7 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
         while(!res.isAfterLast()){
             //date, time, rego, duration, cost
-            Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DOLLARS_PER_HOUR));
+            Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_CENTS_PER_HOUR));
             Integer costDH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_HR));
             Integer costDM = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN));
             Integer calc = ((costPH * costDH) + (costPH/60 * costDM))/100; //TODO this may be messed up by being integer math

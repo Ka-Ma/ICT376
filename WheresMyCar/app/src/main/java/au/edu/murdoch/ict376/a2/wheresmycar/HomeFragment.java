@@ -31,9 +31,11 @@ public class HomeFragment extends Fragment{
     //members
     Button mBtnRecordPark;
     Spinner mSprVehicle;
+    Button mBtnHistory;
     Button mBtnSetup;
 	
     DBHelper mydb;
+    String rego;
 
     public static HomeFragment newInstance(){
         HomeFragment f = new HomeFragment();
@@ -57,7 +59,8 @@ public class HomeFragment extends Fragment{
         //link ui
         mBtnRecordPark = getActivity().findViewById(R.id.btn_record_park);
         mBtnSetup = getActivity().findViewById(R.id.btn_setup);
-
+        mSprVehicle = getActivity().findViewById(R.id.vehicles_spinner);
+        mBtnHistory = getActivity().findViewById(R.id.btn_history);
 
 
         mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,7 @@ public class HomeFragment extends Fragment{
                     //if dialog reply is yes
                     FeeOrTimeLimitFragment checkTimeOrFee = FeeOrTimeLimitFragment.newInstance();
 
+
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, checkTimeOrFee);
 
@@ -87,7 +91,7 @@ public class HomeFragment extends Fragment{
                 }else {
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
-                    dataBundle.putString("rego", "rego"); //where second rego is from currently chosen value on spinner
+                    dataBundle.putString("rego", rego); //where second rego is from currently chosen value on spinner
 
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), FeeOrTimeLimitActivity.class);
@@ -98,8 +102,8 @@ public class HomeFragment extends Fragment{
             }
         });
 
-		mSprVehicle = getActivity().findViewById(R.id.vehicles_spinner);
 
+        //setup spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mydb.getVehicleList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSprVehicle.setAdapter(adapter);
@@ -110,7 +114,7 @@ public class HomeFragment extends Fragment{
         mSprVehicle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String rego = parent.getItemAtPosition(position).toString();
+                rego = parent.getItemAtPosition(position).toString();
 
             }
 
@@ -120,6 +124,39 @@ public class HomeFragment extends Fragment{
             }
         });
 		
+		mBtnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+
+                    // display on the same Activity
+
+                    HistoryFragment history = HistoryFragment.newInstance();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, history);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+
+                }else {
+
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
+                    intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
+
+            }
+        });
 		
         mBtnSetup.setOnClickListener(new View.OnClickListener() {
             @Override
