@@ -42,4 +42,6 @@
     <string name="wheres_my_car">Where\'s My Car?</string>
     <string name="start_menu">Start menu</string>
     <string name="no_bt_devices">Currently no Bluetooth devices available.</string>
+    <string name="lbl_time_remaining">Time remaining:</string>
+    <string name="lbl_times_up">Times up!</string>
 </resources>

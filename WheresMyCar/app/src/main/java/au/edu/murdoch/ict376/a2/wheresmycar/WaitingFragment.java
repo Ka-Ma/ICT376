@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Kat on 24/10/2017.
@@ -19,6 +20,7 @@ public class WaitingFragment extends Fragment {
     //members
     boolean mDualPane;
     View mLayoutView;
+    TextView textviewCountdownLbl;
     TextView textViewCountdown;
 
 
@@ -39,16 +41,21 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        textviewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
+        textviewCountdownLbl.setText(R.string.lbl_time_remaining);
         textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);
 
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
-                textViewCountdown.setText("seconds remaining: " + millisUntilFinished / 1000);
+                textViewCountdown.setText(String.valueOf(millisUntilFinished / 1000));
             }
             public void onFinish() {
-                textViewCountdown.setText("done!");
+                textviewCountdownLbl.setText(R.string.lbl_times_up);
+                textViewCountdown.setText("00");
                 MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.ping);
                 mediaPlayer.start();
+                Toast.makeText(getActivity(), "Parking time limit reached.", Toast.LENGTH_LONG).show();
             }
         }.start();
     }

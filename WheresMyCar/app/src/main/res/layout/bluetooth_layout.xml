@@ -4,13 +4,22 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textViewBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="@string/lbl_bluetooth"
+        android:textAlignment="center"
+        android:textSize="30sp"/>
+
+    <TextView
         android:id="@+id/textViewDevicesStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:text="@string/no_bt_devices"
         android:textAlignment="center"
-        android:textSize="24sp"/>
+        android:textSize="18sp"/>
 
     <ListView
         android:id="@+id/listviewBluetoothDevices"

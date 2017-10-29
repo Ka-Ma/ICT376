@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -187,6 +188,7 @@ public class BluetoothFragment extends Fragment {
             final String action = intent.getAction();
             if(action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(TAG, "Bluetooth connection lost.");
+                Toast.makeText(getActivity(), "Bluetooth connection lost.", Toast.LENGTH_LONG).show();
                 // Do application specific stuff
                 // Record parking location
             }

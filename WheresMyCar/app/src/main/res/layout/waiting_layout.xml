@@ -29,13 +29,23 @@
         android:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/textViewCountdown"
+        android:id="@+id/textViewCountdownLbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="52dp"
-        android:text="*countdown*"
+        android:text="TextView"
         android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/textViewCountdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:text="*timer*"
+        android:textAlignment="center"
+        android:textSize="62sp"/>
 
     <Button
         android:id="@+id/button"
