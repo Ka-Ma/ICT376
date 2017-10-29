@@ -50,9 +50,6 @@ public class BluetoothFragment extends Fragment {
         View v = inflater.inflate(R.layout.bluetooth_layout, container, false);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // Show currently available devices in a list on fragment creation
-        //showDiscoveredDevices();
-
         return v;
     }
 
@@ -63,10 +60,6 @@ public class BluetoothFragment extends Fragment {
         // Register a broadcast receiver for connection change
         IntentFilter connectionChangeFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         getActivity().registerReceiver(connectionBroadcastReceiver, connectionChangeFilter);
-
-        // Register a broadcast receiver for UUID service discovery protocol
-        /*IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
-        getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);*/
 
         // Register a broadcast receiver for Bluetooth turning on
         IntentFilter bluetoothOnFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
