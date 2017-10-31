@@ -11,6 +11,7 @@
     <string name="lbl_add_car">Add car</string>
     <string name="lbl_bluetooth">Bluetooth</string>
 
+
     //add vehicle
     <string name="title_add_vehicle">Add/Edit Vehicle</string>
     <string name="lbl_rego">Registration</string>
@@ -32,6 +33,10 @@
 
     <string name="bt_devices">Available devices:</string>
 
+
+    <string name="bt_connection_lost">Bluetooth connection lost.</string>
+    <string name="bt_tap_device">Tap a device to connect.</string>
+
     <string name="lbl_yes">Yes</string>
     <string name="lbl_no">No</string>
     <string name="ask_cost_or_fee">Do you have a parking fee or time limit?</string>
@@ -41,7 +46,9 @@
     <string name="lbl_return">Return</string>
     <string name="wheres_my_car">Where\'s My Car?</string>
     <string name="start_menu">Start menu</string>
-    <string name="no_bt_devices">Currently no Bluetooth devices available.</string>
-    <string name="lbl_time_remaining">Time remaining:</string>
+    <string name="no_bt_devices">No devices available.</string>
+    <string name="lbl_time_remaining">Time remaining: </string>
     <string name="lbl_times_up">Times up!</string>
+    <string name="refresh">Refresh</string>
+
 </resources>

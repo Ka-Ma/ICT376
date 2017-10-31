@@ -75,8 +75,6 @@ public class WaitingFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String secondsUntilFinished = intent.getStringExtra("secondsUntilFinished");
             if (secondsUntilFinished.equals("0")) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.ping);
-                mediaPlayer.start();
                 textviewCountdownLbl.setText(R.string.lbl_times_up);
                 textViewCountdown.setText(secondsUntilFinished);
                 Toast.makeText(getActivity(), "Parking time limit reached.", Toast.LENGTH_LONG).show();
@@ -91,6 +89,10 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(timerBroadcastReceiver);
+        try {
+            getActivity().unregisterReceiver(timerBroadcastReceiver);
+        } catch(IllegalArgumentException e) {
+            Log.d(TAG, "Receiver previously unregistered." + e);
+        }
     }
 }

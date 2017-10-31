@@ -31,23 +31,18 @@ public class TimerService extends Service {
     private void startTimer() {
         timer = new CountDownTimer(60000, 1000) {
             public void onTick(long millisUntilFinished) {
-                Log.d(TAG, "onTick: " + millisUntilFinished);
                 String secondsUntilFinished = String.valueOf(millisUntilFinished / 1000);
                 intent.putExtra("secondsUntilFinished", secondsUntilFinished);
                 sendBroadcast(intent);
             }
             public void onFinish() {
+                MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.ping);
+                mediaPlayer.start();
                 intent.putExtra("secondsUntilFinished", "0");
                 sendBroadcast(intent);
             }
         };
         timer.start();
-    }
-
-    private void sendTick(String secondsUntilFinished) {
-        Log.d(TAG, "sendTick: " + secondsUntilFinished);
-        intent.putExtra("secondsUntilFinished", secondsUntilFinished);
-        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
     }
 
     @Override
