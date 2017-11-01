@@ -2,6 +2,9 @@ package au.edu.murdoch.ict376.a2.wheresmycar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Cameron on 28/10/2017.
@@ -26,5 +29,10 @@ public class BluetoothActivity extends Activity {
         }else{
             bluetoothFragment = (BluetoothFragment)getFragmentManager().findFragmentById(android.R.id.content);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

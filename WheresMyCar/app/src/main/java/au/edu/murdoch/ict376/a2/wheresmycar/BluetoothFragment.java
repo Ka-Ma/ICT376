@@ -40,7 +40,11 @@ public class BluetoothFragment extends Fragment {
     BluetoothDevice bluetoothDevice;
     private TextView textviewDevicesStatus;
     public ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>();
-    ArrayList btDeviceNameList = new ArrayList();
+    ArrayList<String> btDeviceNameList = new ArrayList<>();
+    ArrayAdapter arrayAdapter;
+    static final String DEVICES_STATUS = "devicesStatus";
+    static final String DEVICE_NAME_LIST = "listViewDevices";
+    static final String DEVICE_LIST = "bluetoothArrayList";
 
     public static BluetoothFragment newInstance(){
         BluetoothFragment f = new BluetoothFragment();
@@ -49,6 +53,7 @@ public class BluetoothFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.bluetooth_layout, container, false);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -58,47 +63,67 @@ public class BluetoothFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        btDeviceNameList.clear();
+
+        if (savedInstanceState != null) {
+            textviewDevicesStatus = (TextView) getActivity().findViewById(R.id.textViewDevicesStatus);
+            textviewDevicesStatus.setText(savedInstanceState.getString(DEVICES_STATUS));
+            btDeviceNameList = savedInstanceState.getStringArrayList(DEVICE_NAME_LIST);
+            bluetoothDevices = savedInstanceState.getParcelableArrayList(DEVICE_LIST);
+            populateListView();
+        } else {
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            bluetoothHelper = new BluetoothHelper(getActivity());
+            if (bluetoothAdapter.isEnabled()) {
+                startBluetoothDiscovery();
+                // Register a broadcast receiver for UUID service discovery protocol
+                IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+                getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
+            } else {
+                bluetoothHelper.enableBluetooth();
+            }
+        }
+
 
         // Register a broadcast receiver for connection change
         IntentFilter connectionChangeFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        connectionChangeFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         getActivity().registerReceiver(connectionBroadcastReceiver, connectionChangeFilter);
 
         // Register a broadcast receiver for Bluetooth turning on
         IntentFilter bluetoothOnFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         getActivity().registerReceiver(bluetoothOnBroadcastReceiver, bluetoothOnFilter);
 
+        // Create an intent filter for discovered devices
+        IntentFilter discoverIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        // Register the broadcast receiver for discovered devices
+        getActivity().registerReceiver(discoverBroadcastReceiver, discoverIntent);
+
         // Register a broadcast receiver for finish of Bluetooth discovery
         IntentFilter discoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         getActivity().registerReceiver(discoveryFinishedBroadcastReceiver, discoveryFinishedFilter);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothHelper = new BluetoothHelper(getActivity());
-        if (bluetoothAdapter.isEnabled()) {
-            startBluetoothDiscovery();
-            // Register a broadcast receiver for UUID service discovery protocol
-            IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
-            getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
-        } else {
-            bluetoothHelper.enableBluetooth();
-        }
+        // Register a broadcast receiver for UUID service discovery protocol
+        IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
+        getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
 
         // Button to refresh the discovered devices list
         Button btnRefresh = (Button) getActivity().findViewById(R.id.btn_refresh_bluetooth);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Clear the current ListView
                 btDeviceNameList.clear();
-                startBluetoothDiscovery();
+                if (arrayAdapter != null) arrayAdapter.notifyDataSetChanged(); // Clear the devices list before re-discovery
+                startBluetoothDiscovery(); // Start the discovery process
             }
         });
     }
 
     public void startBluetoothDiscovery() {
-        // Create an intent filter for discovered devices
+        /*// Create an intent filter for discovered devices
         IntentFilter discoverIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         // Register the broadcast receiver for discovered devices
-        getActivity().registerReceiver(discoverBroadcastReceiver, discoverIntent);
+        getActivity().registerReceiver(discoverBroadcastReceiver, discoverIntent);*/
 
         bluetoothHelper = new BluetoothHelper(getActivity());
         bluetoothHelper.discoverBluetooth();
@@ -107,6 +132,7 @@ public class BluetoothFragment extends Fragment {
         textviewDevicesStatus.setText("Discovering devices...");
         Log.d(TAG, "Bluetooth discovery started...");
     }
+
     // Broadcast receiver for discovered devices
     private BroadcastReceiver discoverBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -120,8 +146,6 @@ public class BluetoothFragment extends Fragment {
                 Log.d(TAG, "ACTION_FOUND: device address: " + device.getAddress());
                 bluetoothDevices.add(device);
                 btDeviceNameList.add(device.getName());
-                /*arrayAdapter.add(device.getName());
-                arrayAdapter.notifyDataSetChanged();*/
             }
         }
     };
@@ -135,9 +159,9 @@ public class BluetoothFragment extends Fragment {
                 final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
                 if (state == BluetoothAdapter.STATE_ON) {
                     startBluetoothDiscovery();
-                    // Register a broadcast receiver for UUID service discovery protocol
+                    /*// Register a broadcast receiver for UUID service discovery protocol
                     IntentFilter uuidSdpFilter = new IntentFilter(BluetoothDevice.ACTION_UUID);
-                    getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);
+                    getActivity().registerReceiver(uuidBroadcastReceiver, uuidSdpFilter);*/
                 }
             }
         }
@@ -148,6 +172,7 @@ public class BluetoothFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "Bluetooth discovery finished.");
+            final String action = intent.getAction();
 
             if (btDeviceNameList.isEmpty()) {
                 Log.d(TAG, "No devices found.");
@@ -155,29 +180,34 @@ public class BluetoothFragment extends Fragment {
             } else {
                 Log.d(TAG, "Devices found.");
                 textviewDevicesStatus.setText(R.string.bt_tap_device);
-                // Put discovered devices into a list view
-                ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, btDeviceNameList);
-                ListView listviewBluetoothDevices = (ListView) getActivity().findViewById(R.id.listviewBluetoothDevices);
-                listviewBluetoothDevices.setAdapter(arrayAdapter);
-                // Set on-click listeners for devices list
-                listviewBluetoothDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                        bluetoothAdapter.cancelDiscovery(); // Make sure discovery is cancelled when item selected
-
-                        String deviceName = bluetoothDevices.get(i).getName();
-                        String deviceAddress = bluetoothDevices.get(i).getAddress();
-                        Log.d(TAG, "ListView item clicked: " + i + ": " + deviceName + ", " + deviceAddress);
-
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                            bluetoothDevices.get(i).fetchUuidsWithSdp(); // Get UUID's of the selected device using service discovery protocol
-                            bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress); // Get the MAC address of the selected device
-                        }
-                    }
-                });
+                populateListView();
             }
         }
     };
+
+    private void populateListView() {
+        // Put discovered devices into a ListView
+        arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, btDeviceNameList);
+        ListView listViewBluetoothDevices = (ListView) getActivity().findViewById(R.id.listviewBluetoothDevices);
+        listViewBluetoothDevices.setAdapter(arrayAdapter);
+        //arrayAdapter.notifyDataSetChanged();
+        // Set on-click listeners for devices list
+        listViewBluetoothDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                bluetoothAdapter.cancelDiscovery(); // Make sure discovery is cancelled when item selected
+
+                String deviceName = bluetoothDevices.get(i).getName();
+                String deviceAddress = bluetoothDevices.get(i).getAddress();
+                Log.d(TAG, "ListView item clicked: " + i + ": " + deviceName + ", " + deviceAddress);
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    bluetoothDevices.get(i).fetchUuidsWithSdp(); // Get UUID's of the selected device using service discovery protocol
+                    bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress); // Get the MAC address of the selected device
+                }
+            }
+        });
+    }
 
     // Broadcast receiver for remote Bluetooth UUID's
     private BroadcastReceiver uuidBroadcastReceiver = new BroadcastReceiver() {
@@ -188,13 +218,14 @@ public class BluetoothFragment extends Fragment {
             if (action.equals(BluetoothDevice.ACTION_UUID)) {
                 //BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
-                // Loop through UUID's to make a connection
+                // Loop through devices UUID's to make a connection
                 for (int i = 0; i < uuidExtra.length; i++) {
                     UUID deviceUUID = UUID.fromString(uuidExtra[i].toString());
                     Log.d(TAG, "UUID: " + uuidExtra[i].toString());
                     try {
                         bluetoothDevice.createRfcommSocketToServiceRecord(deviceUUID).connect();
-                        Log.d(TAG, "***Connection successful***" + uuidExtra[i].toString());
+                        Log.d(TAG, "***Connection successful*** " + uuidExtra[i].toString());
+                        Toast.makeText(getActivity(), "Connected", Toast.LENGTH_LONG).show();
                         return;
                     } catch (IOException connectException) {
                         Log.d(TAG, "Connection failed: " + connectException);
@@ -215,6 +246,7 @@ public class BluetoothFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+            if(action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) Log.d(TAG, "Bluetooth connection made.");
             if(action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(TAG, "Bluetooth connection lost.");
                 Toast.makeText(getActivity(), R.string.bt_connection_lost, Toast.LENGTH_LONG).show();
@@ -225,8 +257,21 @@ public class BluetoothFragment extends Fragment {
     };
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String devicesStatus = textviewDevicesStatus.getText().toString();
+        outState.putString(DEVICES_STATUS, devicesStatus);
+
+        outState.putStringArrayList(DEVICE_NAME_LIST, btDeviceNameList);
+
+        outState.putParcelableArrayList(DEVICE_LIST, bluetoothDevices);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        bluetoothAdapter.cancelDiscovery();
         getActivity().unregisterReceiver(bluetoothOnBroadcastReceiver);
         getActivity().unregisterReceiver(uuidBroadcastReceiver);
         getActivity().unregisterReceiver(connectionBroadcastReceiver);

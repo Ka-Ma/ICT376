@@ -45,6 +45,9 @@ public class SetupFragment extends Fragment {
                 Bundle dataBundle = new Bundle();
                 //add stuff to bundle
 
+                /*BluetoothFragment bluetoothFragment = BluetoothFragment.newInstance();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_layout, bluetoothFragment).commit();*/
+
                 Intent intent = new Intent(getActivity().getApplicationContext(), BluetoothActivity.class);
                 //intent.putExtras(dataBundle);
 
