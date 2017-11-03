@@ -98,11 +98,11 @@ public class DBHelper extends SQLiteOpenHelper {
         //insert row
         db.insert(VEHICLE_TABLE_NAME, null, contentValues);
 
-        return true;
+        return true; //TODO need to verify that rego is unique
     }
 
     //update vehicle
-
+//TODO add fragment to list all vehicles and allow edit them and delete them
     //delete vehicle
 
     //new parking instance

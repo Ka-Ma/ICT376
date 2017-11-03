@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment{
         });
 
 
-        //setup spinner
+        //setup spinner //TODO need to add something to refresh the list after adding a car, maybe in onResume()?
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mydb.getVehicleList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSprVehicle.setAdapter(adapter);
