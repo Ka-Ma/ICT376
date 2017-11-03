@@ -6,8 +6,6 @@
     <string name="lbl_record_park">I am Parked!</string>
     <string name="lbl_spinner">Choose Vehicle</string>
     <string name="lbl_history">History</string>
-    <string name="lbl_setup">Setup</string>
-
 
 	<string name="textview_setup">Setup</string>
     <string name="lbl_setup">Setup</string>
