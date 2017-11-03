@@ -20,7 +20,7 @@
         android:text="@string/refresh"/>
 
     <TextView
-        android:id="@+id/textViewDevicesStatus"
+        android:id="@+id/textViewDeviceStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
