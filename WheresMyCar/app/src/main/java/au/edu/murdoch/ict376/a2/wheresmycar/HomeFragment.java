@@ -68,9 +68,10 @@ public class HomeFragment extends Fragment{
             public void onClick(View view) {
                 Bundle dataBundle = new Bundle();
                 //add stuff to bundle
+                dataBundle.putString("rego", rego);
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), FeeOrTimeLimitActivity.class);
-                //intent.putExtras(dataBundle);
+                intent.putExtras(dataBundle);
 
                 startActivity(intent);
 

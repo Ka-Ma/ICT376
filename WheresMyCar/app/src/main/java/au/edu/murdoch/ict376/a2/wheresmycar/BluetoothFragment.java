@@ -27,7 +27,8 @@ import java.util.UUID;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Kat on 24/10/2017.
+ * Stub Created by Kat on 24/10/2017.
+ * Cameron did this
  */
 
 public class BluetoothFragment extends Fragment {

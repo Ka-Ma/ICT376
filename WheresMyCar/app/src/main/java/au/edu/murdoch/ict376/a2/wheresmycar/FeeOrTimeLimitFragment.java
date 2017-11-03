@@ -19,8 +19,13 @@ public class FeeOrTimeLimitFragment extends Fragment {
     Button btn_no;
     boolean mDualPane;
 
-    public static FeeOrTimeLimitFragment newInstance(){
+    public static FeeOrTimeLimitFragment newInstance(String rego){
         FeeOrTimeLimitFragment f = new FeeOrTimeLimitFragment();
+
+        Bundle args = new Bundle();
+        args.putString("rego", rego);
+        f.setArguments(args);
+
         return f;
     }
 
@@ -44,7 +49,6 @@ public class FeeOrTimeLimitFragment extends Fragment {
 
                 if (mDualPane) {
                     // display on the same Activity
-                    //if dialog reply is yes
                     WaitingFragment waitingFragment = WaitingFragment.newInstance();
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -58,6 +62,37 @@ public class FeeOrTimeLimitFragment extends Fragment {
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
                     //intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btn_yes = (Button) getActivity().findViewById(R.id.btn_yes);
+
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+                    // display on the same Activity
+                    //if dialog reply is yes
+                    DurationCostFragment durationCostFragment = DurationCostFragment.newInstance(getArguments().getString("rego"));
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, durationCostFragment);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+                }else {
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+                    dataBundle.putString("rego", getArguments().getString("rego"));
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), DurationCostActivity.class);
+                    intent.putExtras(dataBundle);
 
                     startActivity(intent);
                 }

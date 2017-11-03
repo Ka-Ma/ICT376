@@ -1,5 +1,6 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,6 +19,7 @@ import static android.content.ContentValues.TAG;
 public class SetupFragment extends Fragment {
     Button btnAddCar;
     Button btnBluetooth;
+    Boolean mDualPane;
 
     public static SetupFragment newInstance(){
         SetupFragment f = new SetupFragment();
@@ -52,6 +54,36 @@ public class SetupFragment extends Fragment {
                 //intent.putExtras(dataBundle);
 
                 startActivity(intent);
+            }
+        });
+
+        btnAddCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+                    // display on the same Activity
+                    //if dialog reply is yes
+                    AddVehicleFragment addVeh = AddVehicleFragment.newInstance();
+
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, addVeh);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+                }else {
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), AddVehicleActivity.class);
+                    //intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
             }
         });
     }

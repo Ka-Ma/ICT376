@@ -17,10 +17,11 @@
 
     <Button
         android:id="@+id/btn_record_park"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_home"
         android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
         android:text="@string/lbl_record_park"/>
 
     <TextView
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_record_park"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="@string/lbl_spinner"/>
 
     <Spinner
@@ -37,24 +39,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/label_spinner"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         />
 
-    <Button
-        android:id="@+id/btn_history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/vehicles_spinner"
-        android:layout_centerHorizontal="true"
-        android:text="@string/lbl_history"/>
+
 
     <Button
         android:id="@+id/btn_setup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_history"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
         android:text="@string/lbl_setup"/>
+
+    <Button
+        android:id="@+id/btn_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_setup"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="@string/lbl_history"/>
 
 </RelativeLayout>
 

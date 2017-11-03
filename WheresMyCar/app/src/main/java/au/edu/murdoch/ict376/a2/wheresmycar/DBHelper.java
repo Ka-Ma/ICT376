@@ -102,8 +102,37 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //update vehicle
+    public boolean updateVehicle(Vehicle v){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //prep new values
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(VEHICLE_COLUMN_REGO, v.getRego());
+        contentValues.put(VEHICLE_COLUMN_DISPLAY_NAME, v.getDisplayName());
+        contentValues.put(VEHICLE_COLUMN_DESCRIPTION, v.getDescription());
+
+        // run the update query
+        db.update(VEHICLE_TABLE_NAME, contentValues, VEHICLE_COLUMN_REGO+ " = ? ",  new String[]{ v.getRego() } );
+
+        return true;
+    }
+
 //TODO add fragment to list all vehicles and allow edit them and delete them
     //delete vehicle
+    public Integer deleteVehicle (String rego) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        db.delete(PARKING_TABLE_NAME,
+                PARKING_COLUMN_REGO + " = ?" ,  new String[] { rego });
+
+
+        // delete contact
+        return db.delete(VEHICLE_TABLE_NAME,
+                VEHICLE_COLUMN_REGO + " = ? ", new String[] { rego });
+    }
 
     //new parking instance
     public boolean insertParking(String rego, ParkedLocation pl) {
@@ -225,6 +254,34 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //get all parking instances for a vehicle
+    public ArrayList<String> getParking(String rego){
+        ArrayList<String> list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + PARKING_TABLE_NAME + " where " + PARKING_COLUMN_REGO + " is " + rego, null);
+        res.moveToFirst();
+        while(!res.isAfterLast()){
+            //date, time, rego, duration, cost
+            Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_CENTS_PER_HOUR));
+            Integer costDH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_HR));
+            Integer costDM = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN));
+            float calc = (((float)costPH * (float)costDH) + ((float)costPH/60 * (float)costDM))/100; //cast all integers to float to calc
+            String cost = String.format("%.2f", calc); //converts calculate float to #.## format
+            list.add(res.getString(res.getColumnIndex(PARKING_COLUMN_DATE))+" "+
+                    res.getString(res.getColumnIndex(PARKING_COLUMN_TIME))+" "+
+                    res.getString(res.getColumnIndex(PARKING_COLUMN_REGO))+" "+
+                    res.getString(res.getColumnIndex(PARKING_COLUMN_DURATION_HR))+":"+
+                    res.getString(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN))+ " $" +
+                    cost);
+
+            res.moveToNext();
+        }
+
+        res.close();
+        db.close();
+
+        return list;
+    }
 
     //get total cost for all vehicles
     public String getTotalCostAllVehicles(){
@@ -255,4 +312,30 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //get total cost for this vehicle
+    public String getTotalCostThisVehicle(String rego){
+        float sum = 0;
+        String total;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + PARKING_TABLE_NAME + " where " + PARKING_COLUMN_REGO + " is " + rego, null);
+        res.moveToFirst();
+        while(!res.isAfterLast()){
+            Integer costPH = res.getInt(res.getColumnIndex(PARKING_COLUMN_CENTS_PER_HOUR));
+            Integer costDH = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_HR));
+            Integer costDM = res.getInt(res.getColumnIndex(PARKING_COLUMN_DURATION_MIN));
+            float calc = (((float)costPH * (float)costDH) + ((float)costPH/60 * (float)costDM))/100;
+            Log.d("myapp", "doing sums this trips was"+ calc);
+            sum = sum + calc;
+            Log.d("myapp", "doing sums total so far"+ sum);
+            res.moveToNext();
+        }
+
+        res.close();
+        db.close();
+
+        total = String.format("%.2f", sum);
+        Log.d("myapp", "doing sums strung out total "+total);
+
+        return total;
+    }
 }
