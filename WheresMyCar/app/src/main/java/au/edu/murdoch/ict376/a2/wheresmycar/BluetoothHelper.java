@@ -27,7 +27,6 @@ public class BluetoothHelper extends View{
         // Check if device supports bluetooth
         if (bluetoothAdapter == null) {
             Log.d(TAG, "Bluetooth unavailable");
-            //Toast.makeText(getContext(), "Bluetooth is not supported on this device.", Toast.LENGTH_LONG).show();
         }
         // Enable bluetooth if it is not enabled
         if (!bluetoothAdapter.isEnabled()) {

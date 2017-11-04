@@ -49,6 +49,8 @@ public class WaitingFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+
         textviewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
         textviewCountdownLbl.setText(R.string.lbl_time_remaining);
         textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);

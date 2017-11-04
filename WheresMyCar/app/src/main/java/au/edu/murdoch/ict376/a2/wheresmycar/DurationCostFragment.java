@@ -102,6 +102,10 @@ public class DurationCostFragment extends Fragment {
                 if(mDualPane){
                     //display on same activity
                     WaitingFragment wait = WaitingFragment.newInstance();
+                    Bundle dataBundle = new Bundle();
+                    dataBundle.putInt("durHr", Integer.parseInt(mDurationHr.getText().toString()));
+                    dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
+                    wait.setArguments(dataBundle);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, wait);
