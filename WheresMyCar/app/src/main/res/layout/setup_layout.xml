@@ -19,26 +19,40 @@
             android:textAlignment="center"
             android:textSize="30sp"/>
 
-        <Button
-            android:id="@+id/btn_add_car"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/lbl_add_car"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_edit_car"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lbl_edit_car"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
 
-        <Button
-            android:id="@+id/btn_bluetooth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lbl_bluetooth"/>
+                <Button
+                    android:id="@+id/btn_add_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/lbl_add_car"/>
+
+                <Button
+                    android:id="@+id/btn_edit_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lbl_edit_car"/>
+
+                <Button
+                    android:id="@+id/btn_bluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lbl_bluetooth"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

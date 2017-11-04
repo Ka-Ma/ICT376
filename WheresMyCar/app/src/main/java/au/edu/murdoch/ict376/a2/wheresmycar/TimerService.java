@@ -18,6 +18,7 @@ import static android.content.ContentValues.TAG;
 public class TimerService extends Service {
     Intent intent = new Intent("TimerUpdates");
     CountDownTimer timer;
+    boolean isRunning = false;
 
     @Override
     public void onCreate() {
@@ -29,6 +30,10 @@ public class TimerService extends Service {
         long millisTotal = intent.getExtras().getLong("TIMER_LENGTH");
         Log.d(TAG, "Timer length = " + millisTotal);
 
+        // If the user sets a new timer the old one needs to be cancelled first
+        if (isRunning)
+            timer.cancel();
+
         Log.d(TAG, "Starting timer...");
         startTimer(millisTotal);
 
@@ -38,8 +43,7 @@ public class TimerService extends Service {
     private void startTimer(long millisTotal) {
         timer = new CountDownTimer(millisTotal, 1000) {
             public void onTick(long millisUntilFinished) {
-                long hours = millisUntilFinished / 3600000;
-                long minutes = millisUntilFinished / 60000;
+                isRunning = true;
                 long seconds = millisUntilFinished / 1000;
                 String hoursUntilFinished = String.valueOf(seconds / 3600);
                 String minutesUntilFinished = String.valueOf((seconds / 60) % 60);
@@ -51,6 +55,7 @@ public class TimerService extends Service {
                 sendBroadcast(intent);
             }
             public void onFinish() {
+                isRunning = false;
                 MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.ping);
                 mediaPlayer.start();
                 intent.putExtra("secondsUntilFinished", "0");

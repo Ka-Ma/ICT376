@@ -72,12 +72,13 @@ public class WaitingFragment extends Fragment {
             textViewCountdownLbl.setText(R.string.lbl_time_remaining);
 
             if (savedInstanceState == null) {
+
                 getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
 
                 Intent intent = new Intent(getActivity(), TimerService.class);
                 intent.putExtra("TIMER_LENGTH", parkingTimeLimit);
-                long t = intent.getExtras().getLong("TIMER_LENGTH");
-                Log.d(TAG, "Timer length = " + t);
+                long timerLength = intent.getExtras().getLong("TIMER_LENGTH");
+                Log.d(TAG, "Timer length = " + timerLength);
                 getActivity().startService(intent);
             }
         }

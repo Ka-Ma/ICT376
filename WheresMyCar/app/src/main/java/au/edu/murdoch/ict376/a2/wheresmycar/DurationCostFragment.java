@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Kat on 24/10/2017.
@@ -121,8 +124,20 @@ public class DurationCostFragment extends Fragment {
                     //dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
                     //dataBundle.putInt("cost", Integer.parseInt(mCost.getText().toString()));
 
-                    long durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
-                    long durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
+                    long durHr = 0;
+                    try {
+                        durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
+                    } catch (NumberFormatException e) {
+                        Log.d(TAG, "Duration hours is not a long " + e);
+                    }
+
+                    long durMin = 0;
+                    try {
+                        durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
+                    } catch (NumberFormatException e) {
+                        Log.d(TAG, "Duration minutes is not a long " + e);
+                    }
+
                     long totalTime = durHr + durMin;
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
