@@ -41,9 +41,23 @@ public class HomeFragment extends Fragment{
     DBHelper mydb;
     String rego;
 
+    //spinner
+    ArrayAdapter<String> adapter;
+
+
     public static HomeFragment newInstance(){
         HomeFragment f = new HomeFragment();
         return f;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        adapter.clear();
+        adapter.addAll(mydb.getVehicleList());
+        adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -126,10 +140,12 @@ public class HomeFragment extends Fragment{
         });
 
 
-        //setup spinner //TODO need to add something to refresh the list after adding a car, maybe in onResume()?
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mydb.getVehicleList());
+        //setup spinner
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mydb.getVehicleList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSprVehicle.setAdapter(adapter);
+
+
         String lastVeh;
         if((lastVeh = mydb.getLastVehicle()) != null)
             mSprVehicle.setSelection(adapter.getPosition(lastVeh));

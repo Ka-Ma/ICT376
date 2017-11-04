@@ -11,8 +11,9 @@
     <string name="lbl_setup">Setup</string>
 
     //Setup
-    <string name="lbl_add_car">Add car</string>
+    <string name="lbl_add_car">Add Car</string>
     <string name="lbl_bluetooth">Bluetooth</string>
+    <string name="lbl_edit_car">Edit Car</string>
 
 
     //add vehicle
@@ -25,6 +26,10 @@
     <string name="hint_vehicle_description">eg: work beast</string>
     <string name="btn_vehicle">Submit</string>
     <string name="regoWarning">Registration can not be left empty</string>
+    <string name="btn_delete_vehicle">Delete</string>
+
+    //vehicle list
+    <string name="title_vehicle_list">Vehicle List</string>
 
     //duration and cost
     <string name="title_cost_duration">Timed Parking Information</string>

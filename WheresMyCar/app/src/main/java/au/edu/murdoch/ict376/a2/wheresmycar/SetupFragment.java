@@ -18,6 +18,7 @@ import static android.content.ContentValues.TAG;
 
 public class SetupFragment extends Fragment {
     Button btnAddCar;
+    Button btnEditCar;
     Button btnBluetooth;
     Boolean mDualPane;
 
@@ -38,6 +39,7 @@ public class SetupFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         btnAddCar = getActivity().findViewById(R.id.btn_add_car);
+        btnEditCar = getActivity().findViewById(R.id.btn_edit_car);
         btnBluetooth = getActivity().findViewById(R.id.btn_bluetooth);
 
         btnBluetooth.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +69,7 @@ public class SetupFragment extends Fragment {
                 if (mDualPane) {
                     // display on the same Activity
                     //if dialog reply is yes
-                    AddVehicleFragment addVeh = AddVehicleFragment.newInstance();
+                    AddVehicleFragment addVeh = AddVehicleFragment.newInstance("");
 
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -78,8 +80,37 @@ public class SetupFragment extends Fragment {
                 }else {
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
-
+                    dataBundle.putString("rego", "");
                     Intent intent = new Intent(getActivity().getApplicationContext(), AddVehicleActivity.class);
+                    //intent.putExtras(dataBundle);
+
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnEditCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
+                mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+                if (mDualPane) {
+                    // display on the same Activity
+                    VehicleListFragment listVeh = VehicleListFragment.newInstance();
+
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.right_fragment_container, listVeh);
+
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+                }else {
+                    Bundle dataBundle = new Bundle();
+                    //add stuff to bundle
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), VehicleListActivity.class);
                     //intent.putExtras(dataBundle);
 
                     startActivity(intent);

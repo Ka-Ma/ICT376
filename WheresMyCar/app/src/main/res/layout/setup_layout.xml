@@ -27,6 +27,13 @@
             android:text="@string/lbl_add_car"/>
 
         <Button
+            android:id="@+id/btn_edit_car"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/lbl_edit_car"/>
+
+        <Button
             android:id="@+id/btn_bluetooth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

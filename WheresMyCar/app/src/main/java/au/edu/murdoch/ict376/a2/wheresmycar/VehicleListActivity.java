@@ -7,9 +7,8 @@ import android.os.Bundle;
  * Created by Kat on 24/10/2017.
  */
 
-public class AddVehicleActivity extends Activity {
-    AddVehicleFragment addVehicleFragment;
-    String rego;
+public class VehicleListActivity extends Activity {
+    VehicleListFragment vehicleListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +18,13 @@ public class AddVehicleActivity extends Activity {
 
         if(extras !=null){
             //populate variables with extras
-            rego = extras.getString("rego");
         }
 
         if (savedInstanceState == null) {
-            addVehicleFragment = AddVehicleFragment.newInstance(rego);
-            getFragmentManager().beginTransaction().replace(android.R.id.content, addVehicleFragment).commit();
+            vehicleListFragment = VehicleListFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(android.R.id.content, vehicleListFragment).commit();
         }else{
-            addVehicleFragment = (AddVehicleFragment)getFragmentManager().findFragmentById(android.R.id.content);
+            vehicleListFragment = (VehicleListFragment)getFragmentManager().findFragmentById(android.R.id.content);
         }
 
 

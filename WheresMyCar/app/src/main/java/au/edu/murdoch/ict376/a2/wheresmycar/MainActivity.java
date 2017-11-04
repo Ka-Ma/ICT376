@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 homeFragment = homeFragment.newInstance();
                 getFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
             }else{
-                vehicleFragment = vehicleFragment.newInstance();
+                vehicleFragment = vehicleFragment.newInstance("");
                 getFragmentManager().beginTransaction().add(R.id.fragment_container, vehicleFragment).commit();
             }
         }else{

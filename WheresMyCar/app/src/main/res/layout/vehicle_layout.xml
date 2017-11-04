@@ -88,4 +88,14 @@
         android:layout_below="@id/edit_vehicle_description"
         android:layout_centerHorizontal="true"
         android:text="@string/btn_vehicle"/>
+
+    <Button
+        android:id="@+id/button_delete_vehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_vehicle_description"
+        android:layout_toRightOf="@id/button_submit_vehicle"
+        android:visibility="invisible"
+        android:text="@string/btn_delete_vehicle"/>
+
 </RelativeLayout>

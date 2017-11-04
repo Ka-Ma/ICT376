@@ -101,6 +101,23 @@ public class DBHelper extends SQLiteOpenHelper {
         return true; //TODO need to verify that rego is unique
     }
 
+    //get vehicle from rego given
+    public Vehicle getVehicle(String rego){
+        Vehicle v = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + VEHICLE_TABLE_NAME + " where " + VEHICLE_COLUMN_REGO + " is '" + rego + "'", null);
+
+        if(res.moveToFirst()){
+            v = new Vehicle(res.getString(res.getColumnIndex(VEHICLE_COLUMN_REGO)), res.getString(res.getColumnIndex(VEHICLE_COLUMN_DISPLAY_NAME)), res.getString(res.getColumnIndex(VEHICLE_COLUMN_DESCRIPTION)));
+        }
+
+        res.close();
+        db.close();
+
+        return v;
+    }
+
     //update vehicle
     public boolean updateVehicle(Vehicle v){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -118,7 +135,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-//TODO add fragment to list all vehicles and allow edit them and delete them
     //delete vehicle
     public Integer deleteVehicle (String rego) {
 
@@ -262,7 +278,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + PARKING_TABLE_NAME + " where " + PARKING_COLUMN_REGO + " is " + rego, null);
+        Cursor res = db.rawQuery("select * from " + PARKING_TABLE_NAME + " where " + PARKING_COLUMN_REGO + " is '" + rego + "'", null);
         res.moveToFirst();
         while(!res.isAfterLast()){
             //date, time, rego, duration, cost
