@@ -19,11 +19,12 @@ public class FeeOrTimeLimitFragment extends Fragment {
     Button btn_no;
     boolean mDualPane;
 
-    public static FeeOrTimeLimitFragment newInstance(String rego){
+    public static FeeOrTimeLimitFragment newInstance(String rego, Long id){
         FeeOrTimeLimitFragment f = new FeeOrTimeLimitFragment();
 
         Bundle args = new Bundle();
         args.putString("rego", rego);
+        args.putLong("id", id);
         f.setArguments(args);
 
         return f;
@@ -79,7 +80,7 @@ public class FeeOrTimeLimitFragment extends Fragment {
                 if (mDualPane) {
                     // display on the same Activity
                     //if dialog reply is yes
-                    DurationCostFragment durationCostFragment = DurationCostFragment.newInstance(getArguments().getString("rego"));
+                    DurationCostFragment durationCostFragment = DurationCostFragment.newInstance(getArguments().getString("rego"), getArguments().getLong("id"));
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, durationCostFragment);
@@ -90,6 +91,7 @@ public class FeeOrTimeLimitFragment extends Fragment {
                     Bundle dataBundle = new Bundle();
                     //add stuff to bundle
                     dataBundle.putString("rego", getArguments().getString("rego"));
+                    dataBundle.putLong("id", getArguments().getLong("id"));
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), DurationCostActivity.class);
                     intent.putExtras(dataBundle);

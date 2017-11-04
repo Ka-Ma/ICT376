@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Kat on 24/10/2017.
@@ -66,9 +70,27 @@ public class HomeFragment extends Fragment{
         mBtnRecordPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long id;
+
+                //TODO get location!
+                double latitude = -32.066567;
+                double longitude = 115.831996;
+
+                //setup date & time
+                String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                String time = new SimpleDateFormat("hh:mm a").format(new Date());
+
+
+                ParkedLocation pl = new ParkedLocation(longitude, latitude, time, date, 0, 0, 0);
+
+                id = mydb.insertParking(rego, pl);
+                Log.d("myapp", "the id returned was "+id);
+
+
                 Bundle dataBundle = new Bundle();
                 //add stuff to bundle
                 dataBundle.putString("rego", rego);
+                dataBundle.putLong("id", id);
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), FeeOrTimeLimitActivity.class);
                 intent.putExtras(dataBundle);

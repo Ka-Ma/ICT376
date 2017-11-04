@@ -29,12 +29,13 @@ public class DurationCostFragment extends Fragment {
 
     DBHelper mydb;
 
-    public static DurationCostFragment newInstance(String rego){
+    public static DurationCostFragment newInstance(String rego, Long id){
 
         DurationCostFragment f = new DurationCostFragment();
 
         Bundle args = new Bundle();
         args.putString("rego", rego);
+        args.putLong("id", id);
         f.setArguments(args);
 
         return f;
@@ -69,14 +70,6 @@ public class DurationCostFragment extends Fragment {
                 View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
-                //TODO get location!
-                double latitude = -32.066567;
-                double longitude = 115.831996;
-
-                //setup date & time
-                String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-                String time = new SimpleDateFormat("hh:mm a").format(new Date());
-
 
                 //check for empty or invalid entry
                 int hr, min, cost = 0;
@@ -102,9 +95,9 @@ public class DurationCostFragment extends Fragment {
                     cost = Math.round(costF*100);
                 }
 
-                ParkedLocation pl = new ParkedLocation(longitude, latitude, time, date, hr, min, cost);
+                ParkedLocation pl = new ParkedLocation(0, 0, "", "", hr, min, cost);
 
-                mydb.insertParking(getArguments().getString("rego"), pl);
+                mydb.updateParking(getArguments().getLong("id"), getArguments().getString("rego"), pl);
 
                 if(mDualPane){
                     //display on same activity

@@ -10,6 +10,7 @@ import android.os.Bundle;
 public class FeeOrTimeLimitActivity extends Activity {
     FeeOrTimeLimitFragment feeOrTimeFragment;
     String rego;
+    Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +21,11 @@ public class FeeOrTimeLimitActivity extends Activity {
         if(extras !=null){
             //populate variables with extras
             rego = extras.getString("rego");
+            id = extras.getLong("id");
         }
 
         if (savedInstanceState == null) {
-            feeOrTimeFragment = FeeOrTimeLimitFragment.newInstance(rego);
+            feeOrTimeFragment = FeeOrTimeLimitFragment.newInstance(rego, id);
             getFragmentManager().beginTransaction().replace(android.R.id.content, feeOrTimeFragment).commit();
         }else{
             feeOrTimeFragment = (FeeOrTimeLimitFragment)getFragmentManager().findFragmentById(android.R.id.content);

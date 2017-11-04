@@ -135,7 +135,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //new parking instance
-    public boolean insertParking(String rego, ParkedLocation pl) {
+    public long insertParking(String rego, ParkedLocation pl) {
+        long id;
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         //prepare row to insert
@@ -151,14 +153,16 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(PARKING_COLUMN_PARK_LOCATION_LONG, pl.getLongitude());
 
         //insert row
-        db.insert(PARKING_TABLE_NAME, null, contentValues);
+        id = db.insert(PARKING_TABLE_NAME, null, contentValues);
 
-        return true;
+        return id;
     }
 
     //update parking duration
-    public boolean updateParking(Integer id, String rego, ParkedLocation pl){
+    public boolean updateParking(long id, String rego, ParkedLocation pl){
         SQLiteDatabase db = this.getWritableDatabase();
+
+        Log.d("myapp", "updating for id "+id);
 
         //prep new values
         ContentValues contentValues = new ContentValues();
@@ -174,7 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //contentValues.put(PARKING_COLUMN_PARK_LOCATION_LONG, pl.getLongitude());
 
         // run the update query
-        db.update(PARKING_TABLE_NAME, contentValues, PARKING_COLUMN_ID + " = ? ", new String[] { Integer.toString(id) } );
+        db.update(PARKING_TABLE_NAME, contentValues, PARKING_COLUMN_ID + " = ? ", new String[] { Long.toString(id) } );
 
         return true;
     }
