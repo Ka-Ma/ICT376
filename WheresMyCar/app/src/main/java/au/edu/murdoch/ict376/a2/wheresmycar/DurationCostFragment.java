@@ -101,11 +101,11 @@ public class DurationCostFragment extends Fragment {
 
                 if(mDualPane){
                     //display on same activity
-                    WaitingFragment wait = WaitingFragment.newInstance(11000);
-                    Bundle dataBundle = new Bundle();
-                    dataBundle.putInt("durHr", Integer.parseInt(mDurationHr.getText().toString()));
-                    dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
-                    wait.setArguments(dataBundle);
+
+                    long durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
+                    long durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
+                    long totalTime = durHr + durMin;
+                    WaitingFragment wait = WaitingFragment.newInstance(totalTime);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, wait);
@@ -121,12 +121,12 @@ public class DurationCostFragment extends Fragment {
                     //dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
                     //dataBundle.putInt("cost", Integer.parseInt(mCost.getText().toString()));
 
-                    long durHr = 1 * 3600000; // = Long.parseLong(mDurationHr.getText().toString());
-                    long durMin = 1 * 60000; // = Long.parseLong(mDurationMin.getText().toString());
+                    long durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
+                    long durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
                     long totalTime = durHr + durMin;
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
-                    dataBundle.putLong("DURATION_HR", totalTime);
+                    dataBundle.putLong("DURATION", totalTime);
                     intent.putExtras(dataBundle);
 
                     startActivity(intent);

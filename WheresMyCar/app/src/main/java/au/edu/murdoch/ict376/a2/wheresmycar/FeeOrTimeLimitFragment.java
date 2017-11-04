@@ -49,7 +49,9 @@ public class FeeOrTimeLimitFragment extends Fragment {
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
                 if (mDualPane) {
-                    // display on the same Activity
+                    // Display on the same Activity
+
+                    // Pass zero to waiting fragment as there is no time limit
                     WaitingFragment waitingFragment = WaitingFragment.newInstance(0);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();

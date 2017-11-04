@@ -28,16 +28,18 @@ public class WaitingFragment extends Fragment {
     //members
     boolean mDualPane;
     View mLayoutView;
-    TextView textviewCountdownLbl;
-    TextView textViewCountdown;
-    long myTime = 10000;
+    TextView textViewCountdownLbl;
+    TextView textViewCountdownHr;
+    TextView textViewCountdownMin;
+    TextView textViewCountdownSec;
+    long parkingTimeLimit;
 
 
     public static WaitingFragment newInstance(long milliSecs){
         WaitingFragment f = new WaitingFragment();
 
         Bundle args = new Bundle();
-        args.putLong("DURATION_HR", milliSecs);
+        args.putLong("DURATION", milliSecs);
         f.setArguments(args);
         return f;
     }
@@ -54,19 +56,25 @@ public class WaitingFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        myTime = getArguments().getLong("DURATION_HR");
+        parkingTimeLimit = getArguments().getLong("DURATION");
 
-        textviewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
-        textviewCountdownLbl.setText(R.string.lbl_time_remaining);
-        textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);
+        if (parkingTimeLimit > 0) {
+            textViewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
+            textViewCountdownHr = (TextView) getActivity().findViewById(R.id.textViewCountdownHr);
+            textViewCountdownMin = (TextView) getActivity().findViewById(R.id.textViewCountdownMin);
+            textViewCountdownSec = (TextView) getActivity().findViewById(R.id.textViewCountdownSec);
+            textViewCountdownLbl.setText(R.string.lbl_time_remaining);
 
-        getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
+            if (savedInstanceState == null) {
+                getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
 
-        Intent intent = new Intent(getActivity(), TimerService.class);
-        intent.putExtra("TIMER_LENGTH", myTime);
-        long t = intent.getExtras().getLong("TIMER_LENGTH");
-        Log.d(TAG, "Timer length = " + t);
-        getActivity().startService(intent);
+                Intent intent = new Intent(getActivity(), TimerService.class);
+                intent.putExtra("TIMER_LENGTH", parkingTimeLimit);
+                long t = intent.getExtras().getLong("TIMER_LENGTH");
+                Log.d(TAG, "Timer length = " + t);
+                getActivity().startService(intent);
+            }
+        }
     }
 
     @Override
@@ -83,18 +91,32 @@ public class WaitingFragment extends Fragment {
     private BroadcastReceiver timerBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String hoursUntilFinished = intent.getStringExtra("hoursUntilFinished");
+            String minutesUntilFinished = intent.getStringExtra("minutesUntilFinished");
             String secondsUntilFinished = intent.getStringExtra("secondsUntilFinished");
-            if (secondsUntilFinished.equals("0")) {
-                textviewCountdownLbl.setText(R.string.lbl_times_up);
-                textViewCountdown.setText(secondsUntilFinished);
+            String millisUntilFinished = intent.getStringExtra("millisUntilFinished");
+            if (millisUntilFinished.equals("0")) {
+                textViewCountdownLbl.setText(R.string.lbl_times_up);
+                textViewCountdownHr.setText(hoursUntilFinished);
+                textViewCountdownMin.setText(minutesUntilFinished);
+                textViewCountdownSec.setText(secondsUntilFinished);
                 Toast.makeText(getActivity(), "Parking time limit reached.", Toast.LENGTH_LONG).show();
                 getActivity().unregisterReceiver(timerBroadcastReceiver);
                 getActivity().stopService(new Intent(getActivity(), TimerService.class));
             } else {
-                textViewCountdown.setText(secondsUntilFinished);
+                textViewCountdownHr.setText(hoursUntilFinished);
+                textViewCountdownMin.setText(minutesUntilFinished);
+                textViewCountdownSec.setText(secondsUntilFinished);
             }
         }
     };
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("Timer", 1);
+    }
 
     @Override
     public void onDestroy() {

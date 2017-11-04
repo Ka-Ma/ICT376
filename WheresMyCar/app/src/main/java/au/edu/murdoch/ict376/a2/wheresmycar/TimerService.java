@@ -26,20 +26,28 @@ public class TimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        long timerLength = intent.getExtras().getLong("TIMER_LENGTH");
-        Log.d(TAG, "Timer length = " + timerLength);
+        long millisTotal = intent.getExtras().getLong("TIMER_LENGTH");
+        Log.d(TAG, "Timer length = " + millisTotal);
 
         Log.d(TAG, "Starting timer...");
-        startTimer(timerLength);
+        startTimer(millisTotal);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void startTimer(long timerLength) {
-        timer = new CountDownTimer(timerLength, 1000) {
+    private void startTimer(long millisTotal) {
+        timer = new CountDownTimer(millisTotal, 1000) {
             public void onTick(long millisUntilFinished) {
-                String secondsUntilFinished = String.valueOf(millisUntilFinished / 1000);
+                long hours = millisUntilFinished / 3600000;
+                long minutes = millisUntilFinished / 60000;
+                long seconds = millisUntilFinished / 1000;
+                String hoursUntilFinished = String.valueOf(seconds / 3600);
+                String minutesUntilFinished = String.valueOf((seconds / 60) % 60);
+                String secondsUntilFinished = String.valueOf(seconds % 60);
+                intent.putExtra("hoursUntilFinished", hoursUntilFinished);
+                intent.putExtra("minutesUntilFinished", minutesUntilFinished);
                 intent.putExtra("secondsUntilFinished", secondsUntilFinished);
+                intent.putExtra("millisUntilFinished", String.valueOf(millisUntilFinished));
                 sendBroadcast(intent);
             }
             public void onFinish() {
