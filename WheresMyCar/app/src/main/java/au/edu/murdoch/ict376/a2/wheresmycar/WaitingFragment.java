@@ -32,6 +32,8 @@ public class WaitingFragment extends Fragment {
     TextView textViewCountdownHr;
     TextView textViewCountdownMin;
     TextView textViewCountdownSec;
+    TextView textViewTimeSeparator1;
+    TextView textViewTimeSeparator2;
     long parkingTimeLimit;
 
 
@@ -63,6 +65,10 @@ public class WaitingFragment extends Fragment {
             textViewCountdownHr = (TextView) getActivity().findViewById(R.id.textViewCountdownHr);
             textViewCountdownMin = (TextView) getActivity().findViewById(R.id.textViewCountdownMin);
             textViewCountdownSec = (TextView) getActivity().findViewById(R.id.textViewCountdownSec);
+            textViewTimeSeparator1 = (TextView) getActivity().findViewById(R.id.textViewCountdownSeparator1);
+            textViewTimeSeparator2 = (TextView) getActivity().findViewById(R.id.textViewCountdownSeparator2);
+            textViewTimeSeparator1.setText(":");
+            textViewTimeSeparator2.setText(":");
             textViewCountdownLbl.setText(R.string.lbl_time_remaining);
 
             if (savedInstanceState == null) {

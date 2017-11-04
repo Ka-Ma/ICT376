@@ -57,10 +57,9 @@
             android:id="@+id/textViewCountdownSeparator1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            android:text=":"
             android:textAlignment="center"
             android:textSize="62sp"/>
 
@@ -79,10 +78,9 @@
             android:id="@+id/textViewCountdownSeparator2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            android:text=":"
             android:textAlignment="center"
             android:textSize="62sp"/>
 
