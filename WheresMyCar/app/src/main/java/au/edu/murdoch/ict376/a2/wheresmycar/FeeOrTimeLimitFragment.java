@@ -50,7 +50,7 @@ public class FeeOrTimeLimitFragment extends Fragment {
 
                 if (mDualPane) {
                     // display on the same Activity
-                    WaitingFragment waitingFragment = WaitingFragment.newInstance();
+                    WaitingFragment waitingFragment = WaitingFragment.newInstance(0);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, waitingFragment);
@@ -79,7 +79,7 @@ public class FeeOrTimeLimitFragment extends Fragment {
 
                 if (mDualPane) {
                     // display on the same Activity
-                    //if dialog reply is yes
+                    // if dialog reply is yes
                     DurationCostFragment durationCostFragment = DurationCostFragment.newInstance(getArguments().getString("rego"), getArguments().getLong("id"));
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();

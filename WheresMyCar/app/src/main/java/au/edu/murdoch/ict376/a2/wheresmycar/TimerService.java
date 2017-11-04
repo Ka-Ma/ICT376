@@ -22,12 +22,21 @@ public class TimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "Starting timer...");
-        startTimer();
     }
 
-    private void startTimer() {
-        timer = new CountDownTimer(60000, 1000) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        long timerLength = intent.getExtras().getLong("TIMER_LENGTH");
+        Log.d(TAG, "Timer length = " + timerLength);
+
+        Log.d(TAG, "Starting timer...");
+        startTimer(timerLength);
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void startTimer(long timerLength) {
+        timer = new CountDownTimer(timerLength, 1000) {
             public void onTick(long millisUntilFinished) {
                 String secondsUntilFinished = String.valueOf(millisUntilFinished / 1000);
                 intent.putExtra("secondsUntilFinished", secondsUntilFinished);
@@ -41,11 +50,6 @@ public class TimerService extends Service {
             }
         };
         timer.start();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

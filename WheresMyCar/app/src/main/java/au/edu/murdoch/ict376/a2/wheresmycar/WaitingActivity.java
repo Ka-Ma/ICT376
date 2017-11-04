@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 public class WaitingActivity extends Activity {
     WaitingFragment mWaitingFragment;
+    long milliSecs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,11 +21,11 @@ public class WaitingActivity extends Activity {
         Bundle extras = getIntent().getExtras();
 
         if(extras !=null){
-            //populate variables with extras
+            milliSecs = extras.getLong("DURATION_HR");
         }
 
         if (savedInstanceState == null) {
-            mWaitingFragment = WaitingFragment.newInstance();
+            mWaitingFragment = WaitingFragment.newInstance(milliSecs);
             getFragmentManager().beginTransaction().replace(android.R.id.content, mWaitingFragment).commit();
         }else{
             mWaitingFragment = (WaitingFragment)getFragmentManager().findFragmentById(android.R.id.content);

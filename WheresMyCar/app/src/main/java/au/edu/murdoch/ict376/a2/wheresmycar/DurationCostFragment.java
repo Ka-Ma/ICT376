@@ -101,7 +101,7 @@ public class DurationCostFragment extends Fragment {
 
                 if(mDualPane){
                     //display on same activity
-                    WaitingFragment wait = WaitingFragment.newInstance();
+                    WaitingFragment wait = WaitingFragment.newInstance(11000);
                     Bundle dataBundle = new Bundle();
                     dataBundle.putInt("durHr", Integer.parseInt(mDurationHr.getText().toString()));
                     dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
@@ -121,7 +121,12 @@ public class DurationCostFragment extends Fragment {
                     //dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
                     //dataBundle.putInt("cost", Integer.parseInt(mCost.getText().toString()));
 
+                    long durHr = 1 * 3600000; // = Long.parseLong(mDurationHr.getText().toString());
+                    long durMin = 1 * 60000; // = Long.parseLong(mDurationMin.getText().toString());
+                    long totalTime = durHr + durMin;
+
                     Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
+                    dataBundle.putLong("DURATION_HR", totalTime);
                     intent.putExtras(dataBundle);
 
                     startActivity(intent);

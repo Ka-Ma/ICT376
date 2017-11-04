@@ -30,10 +30,15 @@ public class WaitingFragment extends Fragment {
     View mLayoutView;
     TextView textviewCountdownLbl;
     TextView textViewCountdown;
+    long myTime = 10000;
 
 
-    public static WaitingFragment newInstance(){
+    public static WaitingFragment newInstance(long milliSecs){
         WaitingFragment f = new WaitingFragment();
+
+        Bundle args = new Bundle();
+        args.putLong("DURATION_HR", milliSecs);
+        f.setArguments(args);
         return f;
     }
 
@@ -49,7 +54,7 @@ public class WaitingFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
+        myTime = getArguments().getLong("DURATION_HR");
 
         textviewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
         textviewCountdownLbl.setText(R.string.lbl_time_remaining);
@@ -58,6 +63,9 @@ public class WaitingFragment extends Fragment {
         getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
 
         Intent intent = new Intent(getActivity(), TimerService.class);
+        intent.putExtra("TIMER_LENGTH", myTime);
+        long t = intent.getExtras().getLong("TIMER_LENGTH");
+        Log.d(TAG, "Timer length = " + t);
         getActivity().startService(intent);
     }
 
