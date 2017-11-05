@@ -60,6 +60,7 @@
     <string name="lbl_time_remaining">Time remaining: </string>
     <string name="lbl_times_up">Times up!</string>
     <string name="refresh">Refresh</string>
+    <string name="btn_return">Return</string>
 
     //history
     <string name="title_history">Parking History</string>

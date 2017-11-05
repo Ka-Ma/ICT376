@@ -14,6 +14,10 @@ public class ParkedLocation {
     private int mDurationMin;
     private int mCostPerHour; //in cents
 
+    ParkedLocation(){
+
+    }
+
     ParkedLocation(double longitude, double latitude, String parkedTime, String date, int durationHr, int durationMin, int costPerHr){
         mLongitude = longitude;
         mLatitude = latitude;

@@ -29,6 +29,7 @@ public class WaitingFragment extends Fragment {
 
     //members
     boolean mDualPane;
+    Button mBtnReturn;
     View mLayoutView;
     TextView textViewCountdownLbl;
     TextView textViewCountdownHr;
@@ -61,6 +62,7 @@ public class WaitingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         parkingTimeLimit = getArguments().getLong("DURATION");
+        mBtnReturn = getActivity().findViewById(R.id.buttonReturn);
 
         if (parkingTimeLimit > 0) {
             textViewCountdownLbl = (TextView) getActivity().findViewById(R.id.textViewCountdownLbl);
@@ -85,6 +87,15 @@ public class WaitingFragment extends Fragment {
             intent.putExtra("TIMER_LENGTH", parkingTimeLimit);
             getActivity().startService(intent);
         }
+
+        mBtnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -120,6 +131,12 @@ public class WaitingFragment extends Fragment {
             }
         }
     };
+
+   public void startMap(View view)
+   {
+       Intent intent = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
+       startActivity(intent);
+   }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

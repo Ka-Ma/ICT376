@@ -102,10 +102,11 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonReturn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_return"
+            android:text="@string/btn_return"
+            android:onClick="startMap"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 </LinearLayout>
