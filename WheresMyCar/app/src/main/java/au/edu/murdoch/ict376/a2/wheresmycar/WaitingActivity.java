@@ -20,7 +20,7 @@ public class WaitingActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
-        if(extras !=null){
+        if(extras != null){
             // Populate variables with extras
             milliSecs = extras.getLong("DURATION");
         }

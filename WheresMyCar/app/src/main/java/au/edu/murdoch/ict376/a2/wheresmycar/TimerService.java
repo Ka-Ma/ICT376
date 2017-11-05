@@ -1,5 +1,8 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v4.app.DialogFragment;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -34,8 +37,11 @@ public class TimerService extends Service {
         if (isRunning)
             timer.cancel();
 
-        Log.d(TAG, "Starting timer...");
-        startTimer(millisTotal);
+        // Only set a timer using a positive number
+        if (millisTotal > 0) {
+            Log.d(TAG, "Starting timer...");
+            startTimer(millisTotal);
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }

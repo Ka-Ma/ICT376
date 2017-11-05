@@ -102,12 +102,25 @@ public class DurationCostFragment extends Fragment {
 
                 mydb.updateParking(getArguments().getLong("id"), getArguments().getString("rego"), pl);
 
+                // Get user entered time for the timer
+                long durHr = 0;
+                try {
+                    durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
+                } catch (NumberFormatException e) {
+                    Log.d(TAG, "Duration hours is not a long " + e);
+                }
+
+                long durMin = 0;
+                try {
+                    durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
+                } catch (NumberFormatException e) {
+                    Log.d(TAG, "Duration minutes is not a long " + e);
+                }
+
+                long totalTime = durHr + durMin;
+
                 if(mDualPane){
                     //display on same activity
-
-                    long durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
-                    long durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
-                    long totalTime = durHr + durMin;
                     WaitingFragment wait = WaitingFragment.newInstance(totalTime);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -117,31 +130,14 @@ public class DurationCostFragment extends Fragment {
                     ft.commit();
 
                 }else {
-
                     Bundle dataBundle = new Bundle();
                     //dataBundle.putString("rego", getArguments().getString("rego"));
                     //dataBundle.putInt("durHr", Integer.parseInt(mDurationHr.getText().toString()));
                     //dataBundle.putInt("durMin", Integer.parseInt(mDurationMin.getText().toString()));
                     //dataBundle.putInt("cost", Integer.parseInt(mCost.getText().toString()));
 
-                    long durHr = 0;
-                    try {
-                        durHr = Long.parseLong(mDurationHr.getText().toString()) * 3600000;
-                    } catch (NumberFormatException e) {
-                        Log.d(TAG, "Duration hours is not a long " + e);
-                    }
-
-                    long durMin = 0;
-                    try {
-                        durMin = Long.parseLong(mDurationMin.getText().toString()) * 60000;
-                    } catch (NumberFormatException e) {
-                        Log.d(TAG, "Duration minutes is not a long " + e);
-                    }
-
-                    long totalTime = durHr + durMin;
-
-                    Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
                     dataBundle.putLong("DURATION", totalTime);
+                    Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
                     intent.putExtras(dataBundle);
 
                     startActivity(intent);

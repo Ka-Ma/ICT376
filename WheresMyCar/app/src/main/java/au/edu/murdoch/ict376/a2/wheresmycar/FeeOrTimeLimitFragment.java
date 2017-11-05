@@ -48,11 +48,13 @@ public class FeeOrTimeLimitFragment extends Fragment {
                 View detailsFrame = getActivity().findViewById(R.id.right_fragment_container);
                 mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
+                // Pass -1 to WaitingFragment as a flag indicating there is no time limit
+                long totalTime = -1;
+
                 if (mDualPane) {
                     // Display on the same Activity
 
-                    // Pass zero to waiting fragment as there is no time limit
-                    WaitingFragment waitingFragment = WaitingFragment.newInstance(0);
+                    WaitingFragment waitingFragment = WaitingFragment.newInstance(totalTime);
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.right_fragment_container, waitingFragment);
@@ -61,10 +63,10 @@ public class FeeOrTimeLimitFragment extends Fragment {
                     ft.commit();
                 }else {
                     Bundle dataBundle = new Bundle();
-                    //add stuff to bundle
 
+                    dataBundle.putLong("DURATION", totalTime);
                     Intent intent = new Intent(getActivity().getApplicationContext(), WaitingActivity.class);
-                    //intent.putExtras(dataBundle);
+                    intent.putExtras(dataBundle);
 
                     startActivity(intent);
                 }

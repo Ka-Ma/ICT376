@@ -1,8 +1,10 @@
 package au.edu.murdoch.ict376.a2.wheresmycar;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
@@ -72,15 +74,16 @@ public class WaitingFragment extends Fragment {
             textViewCountdownLbl.setText(R.string.lbl_time_remaining);
 
             if (savedInstanceState == null) {
-
                 getActivity().registerReceiver(timerBroadcastReceiver, new IntentFilter("TimerUpdates"));
 
                 Intent intent = new Intent(getActivity(), TimerService.class);
                 intent.putExtra("TIMER_LENGTH", parkingTimeLimit);
-                long timerLength = intent.getExtras().getLong("TIMER_LENGTH");
-                Log.d(TAG, "Timer length = " + timerLength);
                 getActivity().startService(intent);
             }
+        } else if (parkingTimeLimit < 0) {
+            Intent intent = new Intent(getActivity(), TimerService.class);
+            intent.putExtra("TIMER_LENGTH", parkingTimeLimit);
+            getActivity().startService(intent);
         }
     }
 
